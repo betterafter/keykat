@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">presentation</string>
+
+    <string name="profile">프로필</string>
 </resources>
