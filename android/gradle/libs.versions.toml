@@ -1,4 +1,5 @@
 [versions]
+# 기본 설정값
 agp = "8.5.0"
 kotlin = "1.9.0"
 coreKtx = "1.15.0"
@@ -11,7 +12,11 @@ composeBom = "2024.04.01"
 appcompat = "1.7.0"
 material = "1.12.0"
 
+# 데이터 관련
+retrofit2 = "2.9.0"
+
 [libraries]
+# 기본 설정값
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -28,6 +33,12 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
+# 데이터 관련
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit2" }
+moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit2" }
+gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit2" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
