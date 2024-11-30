@@ -5,7 +5,7 @@ import com.keykat.domain.profile.entity.ProfileEntity
 import com.keykat.domain.profile.entity.SnsEntity
 import com.keykat.domain.profile.entity.TechEntity
 
-class ProfileMapper {
+object ProfileMapper {
     private fun SnsDto.toDomain(): SnsEntity? {
 
         if (this.name == null) {

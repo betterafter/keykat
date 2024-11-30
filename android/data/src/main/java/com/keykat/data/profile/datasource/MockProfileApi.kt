@@ -1,6 +1,7 @@
 package com.keykat.data.profile.datasource
 
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.keykat.data.profile.dto.EducationDto
 import com.keykat.data.profile.dto.ProfileDto
 import com.keykat.data.profile.dto.TechDto
@@ -23,18 +24,20 @@ class MockProfileApi {
             val inputStream = javaClass.classLoader?.getResourceAsStream("assets/education.json")
             val jsonString = inputStream?.bufferedReader().use { it?.readText() }
 
-            return Gson().fromJson(jsonString, EducationDto::class.java)
+            val listType = object : TypeToken<ArrayList<EducationDto?>?>() {}.type
+            return Gson().fromJson(jsonString, listType)
         } catch (e: Exception) {
             return null
         }
     }
 
-    fun getTechStack(): TechDto? {
+    fun getTechStack(): List<TechDto>? {
         try {
             val inputStream = javaClass.classLoader?.getResourceAsStream("assets/tech.json")
             val jsonString = inputStream?.bufferedReader().use { it?.readText() }
 
-            return Gson().fromJson(jsonString, TechDto::class.java)
+            val listType = object : TypeToken<ArrayList<TechDto?>?>() {}.type
+            return Gson().fromJson(jsonString, listType)
         } catch (e: Exception) {
             return null
         }
