@@ -41,6 +41,15 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    // hilt
+    implementation(libs.hilt)
+    implementation(libs.hilt.compiler)
+
+    // OkHttp
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
+
+
     implementation(libs.retrofit)
     implementation(libs.gson)
     implementation(libs.moshi)

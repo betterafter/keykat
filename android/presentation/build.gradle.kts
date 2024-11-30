@@ -67,5 +67,18 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    // hilt
+    implementation(libs.hilt)
+    implementation(libs.hilt.compiler)
+    implementation(libs.hilt.viewmodel)
+
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.navigation.compose)
+
+    implementation(libs.androidx.material)
+    implementation(libs.androidx.material.icons.extended)
+
+
     implementation(project(":domain"))
 }
