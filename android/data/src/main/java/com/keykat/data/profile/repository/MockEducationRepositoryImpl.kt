@@ -1,12 +1,17 @@
 package com.keykat.data.profile.repository
 
+import com.keykat.data.profile.datasource.MockProfileApi
 import com.keykat.domain.profile.entity.EducationEntity
 import com.keykat.domain.profile.repository.EducationRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
-class MockEducationRepositoryImpl : EducationRepository {
+class MockEducationRepositoryImpl(
+    private val api: MockProfileApi
+) : EducationRepository {
     override suspend fun getEducationList(): Flow<List<EducationEntity>> {
-        TODO("Not yet implemented")
+        return flow {
+            api.getMockEducation()
+        }
     }
-
 }
