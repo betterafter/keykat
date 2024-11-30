@@ -10,38 +10,5 @@
       "url": "https://www.instagram.com/keykat77/",
       "icon": ""
     }
-  ],
-  "tech": [
-    {
-      "name": "Flutter",
-      "icon": "",
-      "content": "플러터 개발"
-    },
-    {
-      "name": "Android",
-      "icon": "",
-      "content": "안드로이드 개발"
-    },
-    {
-      "name": "Next.js",
-      "icon": "",
-      "content": "웹 프론트엔드 개발"
-    }
-  ],
-  "education": [
-    {
-      "name": "네이버 부스트캠프 웹-모바일 6기",
-      "where": "네이버 커넥트재단",
-      "start_at": "2021.07.14",
-      "end_at": "2021.12.20",
-      "content": "어떤 공부를 했나요?"
-    },
-    {
-      "name": "건국대학교",
-      "where": "건국대학교",
-      "start_at": "2016.03.02",
-      "end_at": "2023.02.20",
-      "content": "어떤 공부를 했나요?"
-    }
   ]
 }

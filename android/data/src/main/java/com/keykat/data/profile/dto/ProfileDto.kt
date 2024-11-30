@@ -19,11 +19,5 @@ data class ProfileDto(
     val introduce: String?,
 
     @SerializedName("sns")
-    val sns: List<SnsDto>?,
-
-    @SerializedName("tech")
-    val tech: List<TechDto>?,
-
-    @SerializedName("education")
-    val education: List<EducationDto>?
+    val sns: List<SnsDto>?
 )
