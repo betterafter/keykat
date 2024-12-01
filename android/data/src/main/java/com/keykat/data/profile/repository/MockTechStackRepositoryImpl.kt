@@ -6,8 +6,9 @@ import com.keykat.domain.profile.entity.TechEntity
 import com.keykat.domain.profile.repository.TechStackRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class MockTechStackRepositoryImpl(
+class MockTechStackRepositoryImpl @Inject constructor(
     private val api: MockProfileApi
 ) : TechStackRepository {
     override suspend fun getTechStack(): Flow<List<TechEntity>> {

@@ -8,6 +8,7 @@ import com.keykat.domain.profile.repository.ProfileRepository
 import com.keykat.domain.profile.repository.TechStackRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import javax.inject.Inject
 
 class ProfileUseCase(
     private val profileRepository: ProfileRepository,

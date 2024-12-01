@@ -5,8 +5,9 @@ import com.keykat.domain.profile.entity.ProfileEntity
 import com.keykat.domain.profile.repository.ProfileRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class MockProfileRepositoryImpl(
+class MockProfileRepositoryImpl @Inject constructor(
     private val api: MockProfileApi
 ) : ProfileRepository {
     override suspend fun getProfile(): Flow<ProfileEntity> {
