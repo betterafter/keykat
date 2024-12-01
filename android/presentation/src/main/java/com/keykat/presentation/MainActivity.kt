@@ -46,7 +46,6 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    val viewModel: ProfileViewModel = hiltViewModel()
                     val navController = rememberNavController()
                     val bottoms = arrayOf(Graph.Profile)
 

@@ -14,13 +14,13 @@ fun MainNavHost(
     navController: NavHostController,
     modifier: Modifier
 ) {
-//    NavHost(
-//        navController = navController,
-//        startDestination = Graph.Profile.route,
-//        modifier = modifier
-//    ) {
-//        profileNavGraph(
-//            navController = navController
-//        )
-//    }
+    NavHost(
+        navController = navController,
+        startDestination = Graph.Profile.route,
+        modifier = modifier
+    ) {
+        profileNavGraph(
+            navController = navController
+        )
+    }
 }
