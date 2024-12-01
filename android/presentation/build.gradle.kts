@@ -1,24 +1,22 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.ksp.android)
+    alias(libs.plugins.safeargs.kotlin)
+    alias(libs.plugins.dagger.hilt)
 }
 
 android {
     namespace = "com.keykat.presentation"
     compileSdk = 35
 
+    configurations.implementation{
+        exclude(group = "com.intellij", module = "annotations")
+    }
+
     defaultConfig {
-        applicationId = "com.keykat.presentation"
         minSdk = 24
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
     }
 
     buildTypes {
@@ -31,11 +29,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -54,7 +52,6 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
@@ -70,7 +67,8 @@ dependencies {
 
     // hilt
     implementation(libs.hilt)
-    ksp(libs.hilt.compiler)
+    implementation(libs.hilt.compiler)
+    ksp(libs.dagger.hilt.compiler)
     implementation(libs.hilt.viewmodel)
 
     implementation(libs.androidx.navigation.fragment.ktx)
