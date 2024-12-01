@@ -1,16 +1,17 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.ksp.android)
 }
 
 android {
     namespace = "com.keykat.presentation"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.keykat.presentation"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -69,7 +70,7 @@ dependencies {
 
     // hilt
     implementation(libs.hilt)
-    implementation(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
     implementation(libs.hilt.viewmodel)
 
     implementation(libs.androidx.navigation.fragment.ktx)

@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace = "com.keykat.keykat"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.keykat.keykat"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -71,8 +71,7 @@ dependencies {
 
     implementation(libs.hilt)
     implementation(libs.hilt.android.compiler)
-    implementation(libs.hilt.compiler)
-    ksp(libs.dagger.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     implementation(project(":data"))
     implementation(project(":domain"))

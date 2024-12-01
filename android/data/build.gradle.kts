@@ -1,11 +1,12 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.ksp.android)
 }
 
 android {
     namespace = "com.keykat.data"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 24
@@ -43,7 +44,7 @@ dependencies {
 
     // hilt
     implementation(libs.hilt)
-    implementation(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     // OkHttp
     implementation(libs.okhttp)
