@@ -1,6 +1,7 @@
 package com.keykat.data.profile.repository
 
 import com.keykat.data.profile.datasource.MockProfileApi
+import com.keykat.data.profile.dto.ProfileMapper.toDomain
 import com.keykat.domain.profile.entity.ProfileEntity
 import com.keykat.domain.profile.repository.ProfileRepository
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +13,7 @@ class MockProfileRepositoryImpl @Inject constructor(
 ) : ProfileRepository {
     override suspend fun getProfile(): Flow<ProfileEntity> {
         return flow {
-            api.getMockProfile()
+            api.getMockProfile()?.toDomain()?.let { emit(it) }
         }
     }
 }

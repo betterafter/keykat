@@ -21,15 +21,11 @@ class ProfileViewModel @Inject constructor(
 
     suspend fun initTopProfile() {
         _profile.value = ProfileUiState.Loading
-        println("!@#!@#!@#!@#!@#@!#@!#@#@!")
-
         viewModelScope.launch {
-            profileUseCase.getTopProfile().catch { e ->
-                _profile.value = ProfileUiState.Error(e)
-            }.collect {
-                _profile.value = ProfileUiState.Success(it)
-                println("[keykat] $it")
-            }
+            profileUseCase.getTopProfile()
+                .collect {
+                    _profile.value = ProfileUiState.Success(it)
+                }
         }
     }
 }

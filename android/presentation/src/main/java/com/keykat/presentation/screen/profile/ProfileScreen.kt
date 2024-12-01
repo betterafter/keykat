@@ -12,10 +12,9 @@ fun ProfileScreen(
     navController: NavController,
     viewModel: ProfileViewModel = profileViewModel()
 ) {
-    println("!!!!!!!!!!!!!!!!!!!!!!")
-//    LaunchedEffect(key1 = "profileScreen") {
-//        viewModel.initTopProfile()
-//    }
+    LaunchedEffect(key1 = "profileScreen") {
+        viewModel.initTopProfile()
+    }
     
     return Column {
         Text(text = "hello")
