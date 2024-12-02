@@ -16,7 +16,7 @@ class ProfileUseCase(
     private val educationRepository: EducationRepository,
     private val techStackRepository: TechStackRepository
 ) {
-    suspend fun getTopProfile(): Flow<ProfileEntity> {
+    suspend fun getTopProfile(): Flow<ProfileEntity?> {
         return profileRepository.getProfile()
     }
 

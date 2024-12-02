@@ -1,6 +1,5 @@
 package com.keykat.data.di
 
-import com.keykat.data.profile.datasource.MockProfileApi
 import com.keykat.data.profile.datasource.ProfileApi
 import dagger.Module
 import dagger.Provides
@@ -17,16 +16,10 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-//    @Singleton
-//    @Provides
-//    fun provideProfileApi(retrofit: Retrofit): ProfileApi {
-//        return retrofit.create(ProfileApi::class.java)
-//    }
-
     @Singleton
     @Provides
-    fun provideProfileApi(): MockProfileApi {
-        return MockProfileApi()
+    fun provideProfileApi(retrofit: Retrofit): ProfileApi {
+        return retrofit.create(ProfileApi::class.java)
     }
 
     // @Provides: 외부 라이브러리에서 사용되는 room, retrofit 같은
@@ -44,7 +37,7 @@ object AppModule {
         okHttpClient: OkHttpClient.Builder,
     ): Retrofit {
         return Retrofit.Builder()
-//            .baseUrl()
+            .baseUrl("https://www.keykat.kr")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient.build())
             .build()

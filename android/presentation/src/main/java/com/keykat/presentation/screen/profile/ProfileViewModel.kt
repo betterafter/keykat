@@ -23,8 +23,14 @@ class ProfileViewModel @Inject constructor(
         _profile.value = ProfileUiState.Loading
         viewModelScope.launch {
             profileUseCase.getTopProfile()
-                .collect {
-                    _profile.value = ProfileUiState.Success(it)
+                .catch { e ->
+                    _profile.value = ProfileUiState.Error(e)
+                }.collect {
+                    if (it != null) {
+                        _profile.value = ProfileUiState.Success(it)
+                    } else {
+                        _profile.value = ProfileUiState.Error()
+                    }
                 }
         }
     }
