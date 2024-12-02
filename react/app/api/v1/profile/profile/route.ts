@@ -1,27 +1,11 @@
-import { NextResponse } from 'next/server';
+import { query } from '@/utils/firebase-admin'
 
-export async function GET() {
+// 프로필 데이터 가져오기
+export async function GET(request: Request) {
     try {
-        const data = {
-            "name": "keykat",
-            "tel": "010-6850-1740",
-            "email": "koin20000@gmail.com",
-            "profile_url": "https://avatars.githubusercontent.com/u/26290540?v=4",
-            "introduce": "안녕하세요.",
-            "sns": [
-                {
-                    "name": "instagram",
-                    "url": "https://www.instagram.com/keykat77/",
-                    "icon": ""
-                }
-            ]
-        };
-
-        return NextResponse.json(data);
+        const profile = await query<any>('profile')
+        return Response.json(profile[0])
     } catch (error) {
-        return NextResponse.json(
-            { error: 'Failed to fetch posts' },
-            { status: 500 }
-        );
+        return Response.json({ success: false, error: 'Failed to fetch profiles' }, { status: 500 })
     }
 }
