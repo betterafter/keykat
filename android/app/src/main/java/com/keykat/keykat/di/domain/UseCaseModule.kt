@@ -1,4 +1,4 @@
-package usecase
+package com.keykat.keykat.di.domain
 
 import com.keykat.domain.profile.repository.EducationRepository
 import com.keykat.domain.profile.repository.ProfileRepository
@@ -7,6 +7,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import usecase.ProfileUseCase
 import javax.inject.Singleton
 
 @Module

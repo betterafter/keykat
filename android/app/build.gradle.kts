@@ -83,6 +83,14 @@ dependencies {
     kspAndroidTest(libs.hilt.android.compiler)
     ksp(libs.dagger.hilt.compiler)
 
+    // OkHttp
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
+
+    implementation(libs.retrofit)
+    implementation(libs.gson)
+    implementation(libs.moshi)
+
     implementation(project(":data"))
     implementation(project(":domain"))
     implementation(project(":presentation"))
