@@ -4,5 +4,5 @@ import com.keykat.domain.profile.entity.ProfileEntity
 import kotlinx.coroutines.flow.Flow
 
 interface ProfileRepository {
-    suspend fun getProfile(): Flow<ProfileEntity>
+    suspend fun getProfile(): Flow<ProfileEntity?>
 }

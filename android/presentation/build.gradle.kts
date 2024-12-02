@@ -1,23 +1,22 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.ksp.android)
+    alias(libs.plugins.safeargs.kotlin)
+    alias(libs.plugins.dagger.hilt)
 }
 
 android {
     namespace = "com.keykat.presentation"
-    compileSdk = 34
+    compileSdk = 35
+
+    configurations.implementation{
+        exclude(group = "com.intellij", module = "annotations")
+    }
 
     defaultConfig {
-        applicationId = "com.keykat.presentation"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        targetSdk = 35
     }
 
     buildTypes {
@@ -30,11 +29,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -53,12 +52,14 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.material)
+    implementation(libs.androidx.material.icons.extended)
+    implementation(libs.coil.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -70,14 +71,13 @@ dependencies {
     // hilt
     implementation(libs.hilt)
     implementation(libs.hilt.compiler)
+    ksp(libs.dagger.hilt.compiler)
     implementation(libs.hilt.viewmodel)
 
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.navigation.compose)
 
-    implementation(libs.androidx.material)
-    implementation(libs.androidx.material.icons.extended)
 
 
     implementation(project(":domain"))

@@ -1,4 +1,4 @@
-package com.keykat.data.di
+package com.keykat.keykat.di.data
 
 import com.keykat.data.profile.repository.EducationRepositoryImpl
 import com.keykat.data.profile.repository.ProfileRepositoryImpl

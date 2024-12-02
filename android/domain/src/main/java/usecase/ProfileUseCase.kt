@@ -7,14 +7,16 @@ import com.keykat.domain.profile.repository.EducationRepository
 import com.keykat.domain.profile.repository.ProfileRepository
 import com.keykat.domain.profile.repository.TechStackRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
+import javax.inject.Inject
 
 class ProfileUseCase(
     private val profileRepository: ProfileRepository,
     private val educationRepository: EducationRepository,
     private val techStackRepository: TechStackRepository
 ) {
-    suspend fun getTopProfile(): Flow<ProfileEntity> {
+    suspend fun getTopProfile(): Flow<ProfileEntity?> {
         return profileRepository.getProfile()
     }
 
