@@ -9,7 +9,11 @@ import com.keykat.presentation.R
 sealed class Graph(
     val route: String,
     @StringRes val resourceId: Int,
-    val icon : ImageVector
+    val icon: ImageVector
 ) {
-    data object Profile : Graph("graph_profile", R.string.profile, Icons.Filled.Person)
+    data object Profile : Graph(
+        "graph_profile",
+        R.string.profile,
+        Icons.Filled.Person
+    )
 }

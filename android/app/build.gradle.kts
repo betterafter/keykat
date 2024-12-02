@@ -2,17 +2,21 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.ksp.android)
-    alias(libs.plugins.hilt.android)
+    alias(libs.plugins.dagger.hilt)
 }
 
 android {
     namespace = "com.keykat.keykat"
-    compileSdk = 34
+    compileSdk = 35
+
+    configurations.implementation{
+        exclude(group = "com.intellij", module = "annotations")
+    }
 
     defaultConfig {
         applicationId = "com.keykat.keykat"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -32,11 +36,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -47,6 +51,7 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "META-INF/gradle/incremental.annotation.processors"
         }
     }
 }
@@ -55,7 +60,6 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
@@ -70,9 +74,22 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation(libs.hilt)
-    implementation(libs.hilt.android.compiler)
     implementation(libs.hilt.compiler)
+    implementation(libs.dagger.hilt.compiler)
+    testImplementation(libs.hilt.android.testing)
+    testAnnotationProcessor(libs.hilt.android.compiler)
+    kspTest(libs.hilt.android.compiler)
+    androidTestImplementation(libs.hilt.android.testing)
+    kspAndroidTest(libs.hilt.android.compiler)
     ksp(libs.dagger.hilt.compiler)
+
+    // OkHttp
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
+
+    implementation(libs.retrofit)
+    implementation(libs.gson)
+    implementation(libs.moshi)
 
     implementation(project(":data"))
     implementation(project(":domain"))
