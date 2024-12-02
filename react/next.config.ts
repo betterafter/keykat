@@ -1,20 +1,28 @@
-import type { NextConfig } from 'next';
-
-const nextConfig: NextConfig = {
-  // API 라우트는 /api 경로로 자동 설정됨
+module.exports = {
   async headers() {
     return [
       {
+        // 모든 API 경로에 적용
         source: '/api/:path*',
         headers: [
           {
-            key: 'Cache-Control',
-            value: 'no-store',
+            key: 'Access-Control-Allow-Credentials',
+            value: 'true',
+          },
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
+          {
+            key: 'Access-Control-Allow-Methods',
+            value: 'GET,POST,PUT,DELETE,OPTIONS',
+          },
+          {
+            key: 'Access-Control-Allow-Headers',
+            value: 'Content-Type, Authorization',
           },
         ],
       },
-    ];
+    ]
   },
-};
-
-export default nextConfig;
+}
