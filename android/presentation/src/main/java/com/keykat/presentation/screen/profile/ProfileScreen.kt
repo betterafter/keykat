@@ -1,6 +1,5 @@
 package com.keykat.presentation.screen.profile
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,19 +9,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.internal.composableLambda
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
-import com.keykat.domain.profile.entity.ProfileEntity
 import com.keykat.presentation.profileViewModel
+import com.keykat.presentation.screen.profile.widget.profile.ProfileWidget
 
 @Composable
 fun ProfileScreen(
@@ -45,7 +41,7 @@ fun ProfileScreen(
             when (profileState) {
                 is ProfileUiState.Success -> {
                     val entity = (profileState as ProfileUiState.Success).profileEntity
-                    SuccessProfileWidget(
+                    ProfileWidget(
                         profileEntity = entity,
                         scrollState = scrollState
                     )

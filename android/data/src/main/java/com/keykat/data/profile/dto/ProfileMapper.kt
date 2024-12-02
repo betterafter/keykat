@@ -25,7 +25,7 @@ object ProfileMapper {
             tel = this.tel,
             email = this.email,
             profileUrl = this.profileUrl,
-            introduce = this.introduce,
+            introduce = this.introduce?.replace("\\n", "\n"),
             sns = this.sns?.map { it.toDomain() }?.toList()
         )
     }
