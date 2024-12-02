@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
     try {
-        const data = `{
+        const data = {
             "tech": [
                 {
                     "name": "Flutter",
@@ -20,7 +20,7 @@ export async function GET() {
                     "content": "웹 프론트엔드 개발"
                 }
             ]
-        }`;
+        };
 
         return NextResponse.json(data);
     } catch (error) {
