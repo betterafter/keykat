@@ -1,8 +1,8 @@
 import admin from 'firebase-admin'
 import { getFirestore } from 'firebase-admin/firestore'
-import serviceAccount from './serviceAccountKey.json'
 
 if (!admin.apps.length) {
+    const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY as string)
     admin.initializeApp({
         credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
         databaseURL: process.env.FIREBASE_DATABASE_URL
