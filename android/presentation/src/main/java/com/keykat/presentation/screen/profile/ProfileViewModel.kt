@@ -17,7 +17,7 @@ class ProfileViewModel @Inject constructor(
     private val profileUseCase: ProfileUseCase
 ) : ViewModel() {
     private val _profile = MutableStateFlow<ProfileUiState>(ProfileUiState.Init)
-    val profile: StateFlow<ProfileUiState> = _profile.asStateFlow()
+    val profile: StateFlow<ProfileUiState> = _profile
 
     suspend fun initTopProfile() {
         _profile.value = ProfileUiState.Loading
@@ -28,4 +28,5 @@ class ProfileViewModel @Inject constructor(
                 }
         }
     }
+
 }
