@@ -16,23 +16,37 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val profileUseCase: ProfileUseCase
 ) : ViewModel() {
-    private val _profile = MutableStateFlow<ProfileUiState>(ProfileUiState.Init)
-    val profile: StateFlow<ProfileUiState> = _profile
+    private val _topProfile = MutableStateFlow<TopProfileUiState>(TopProfileUiState.Init)
+    val topProfile: StateFlow<TopProfileUiState> = _topProfile
+
+    private val _bottomProfile = MutableStateFlow<BottomProfileUiState>(BottomProfileUiState.Init)
+    val bottomProfile: StateFlow<BottomProfileUiState> = _bottomProfile
 
     suspend fun initTopProfile() {
-        _profile.value = ProfileUiState.Loading
+        _topProfile.value = TopProfileUiState.Loading
         viewModelScope.launch {
             profileUseCase.getTopProfile()
                 .catch { e ->
-                    _profile.value = ProfileUiState.Error(e)
+                    _topProfile.value = TopProfileUiState.Error(e)
                 }.collect {
                     if (it != null) {
-                        _profile.value = ProfileUiState.Success(it)
+                        _topProfile.value = TopProfileUiState.Success(it)
                     } else {
-                        _profile.value = ProfileUiState.Error()
+                        _topProfile.value = TopProfileUiState.Error()
                     }
                 }
         }
     }
 
+    suspend fun initBottomProfile() {
+        _bottomProfile.value = BottomProfileUiState.Loading
+        viewModelScope.launch {
+            profileUseCase.getBottomProfile()
+                .catch { e ->
+                    _bottomProfile.value = BottomProfileUiState.Error(e)
+                }.collect {
+                    _bottomProfile.value = BottomProfileUiState.Success(it)
+                }
+        }
+    }
 }
