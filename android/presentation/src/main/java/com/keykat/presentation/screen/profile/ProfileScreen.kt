@@ -42,6 +42,7 @@ fun ProfileScreen(
                 is ProfileUiState.Success -> {
                     val entity = (profileState as ProfileUiState.Success).profileEntity
                     ProfileWidget(
+                        navController = navController,
                         profileEntity = entity,
                         scrollState = scrollState
                     )

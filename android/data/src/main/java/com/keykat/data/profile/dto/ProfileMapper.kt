@@ -15,7 +15,8 @@ object ProfileMapper {
         return SnsEntity(
             name = this.name,
             url = this.url,
-            icon = this.icon
+            icon = this.icon,
+            webUrl = this.webUrl,
         )
     }
 
