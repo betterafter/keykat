@@ -10,5 +10,8 @@ data class SnsDto(
     val url: String?,
 
     @SerializedName("icon")
-    val icon: String?
+    val icon: String?,
+
+    @SerializedName("web_url")
+    val webUrl: String?,
 )
