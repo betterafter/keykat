@@ -27,7 +27,7 @@ fun ProfileScreen(
 ) {
     val profileState by viewModel.profile.collectAsState()
     val scrollState = rememberScrollState()
-    LaunchedEffect(key1 = "profileScreen") {
+    LaunchedEffect(viewModel) {
         viewModel.initTopProfile()
     }
 
