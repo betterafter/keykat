@@ -1,8 +1,12 @@
 package com.keykat.presentation.screen.web
 
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.net.http.SslError
 import android.os.Build
+import android.util.Log
 import android.view.MotionEvent
 import android.webkit.SslErrorHandler
 import android.webkit.WebResourceRequest
@@ -10,13 +14,17 @@ import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
 
@@ -27,6 +35,18 @@ fun WebViewScreen(
     url: String,
 ) {
     var webView: WebView? = null
+    val currentContext = LocalContext.current
+    val uri = Uri.parse(url)
+
+
+    if (uri.scheme != "http" && uri.scheme != "https") {
+        LaunchedEffect(url) {
+            currentContext.startActivity(Intent(Intent.ACTION_VIEW, uri))
+            navController.popBackStack()
+        }
+
+        return
+    }
 
     BackHandler(enabled = true) {
         if (webView != null && webView!!.canGoBack()) {
@@ -41,6 +61,7 @@ fun WebViewScreen(
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
+            .background(Color.White)
             .nestedScroll(remember { object : NestedScrollConnection {} }),
 
         factory = {
@@ -51,8 +72,6 @@ fun WebViewScreen(
                     domStorageEnabled = true
                     cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
                     mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
-                    userAgentString =
-                        "Mozilla/5.0 (Linux; Android ${Build.VERSION.RELEASE}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Mobile Safari/537.36"
                     isVerticalScrollBarEnabled = true
                 }
                 isNestedScrollingEnabled = true
@@ -62,12 +81,35 @@ fun WebViewScreen(
                             view: WebView?,
                             request: WebResourceRequest?
                         ): Boolean {
+                            val requestUrl = request?.url?.toString()
+                            Log.d("WebViewScreen", "Request URL: $requestUrl")
+
                             request?.url?.let { uri ->
-                                view?.loadUrl(uri.toString())
-                                return true
+                                Log.d("WebViewScreen", "Scheme: ${uri.scheme}")
+
+                                return when {
+                                    uri.scheme == "http" || uri.scheme == "https" -> {
+                                        view?.loadUrl(uri.toString())
+                                        true
+                                    }
+
+                                    else -> try {
+                                        Log.d("WebViewScreen", "Opening external app for URI: $uri")
+                                        currentContext.startActivity(
+                                            Intent(
+                                                Intent.ACTION_VIEW,
+                                                uri
+                                            )
+                                        )
+                                        true
+                                    } catch (e: ActivityNotFoundException) {
+                                        Log.e("WebViewScreen", "Activity not found: ${e.message}")
+                                        false
+                                    }
+                                }
                             }
 
-                            return super.shouldOverrideUrlLoading(view, request)
+                            return false
                         }
                     }
                 setOnTouchListener { v, event ->

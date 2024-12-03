@@ -128,23 +128,10 @@ fun ProfileTopWidget(
                                 .clickable {
 
                                     showBottomSheet = true
-                                    currentSnsLink = curr.webUrl.toString()
+                                    currentSnsLink = curr.url ?: curr.webUrl.toString()
                                     navController.navigate(
                                         route = Screen.Web.createRoute(currentSnsLink),
                                     )
-//                                    currentSnsLink = curr.url.toString()
-//                                    currentSnsLink = "gh://keykat7"
-//                                    println("[keykat] $currentSnsLink")
-//                                    try {
-//                                        val intent = Intent(Intent.ACTION_VIEW).apply {
-//                                            data = Uri.parse(currentSnsLink)
-//                                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
-//                                        }
-//                                        currentContext.startActivity(intent)
-//                                    } catch (e: ActivityNotFoundException) {
-//                                        showBottomSheet = true
-//                                        currentSnsLink = curr.webUrl.toString()
-//                                    }
                                 },
                             model = curr.icon,
                             contentDescription = curr.name,

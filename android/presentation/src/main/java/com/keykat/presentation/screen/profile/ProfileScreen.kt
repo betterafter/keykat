@@ -37,7 +37,6 @@ fun ProfileScreen(
             .padding(top = 50.dp)
     ) {
         Row {
-            println("[keykat] $profileState")
             when (profileState) {
                 is ProfileUiState.Success -> {
                     val entity = (profileState as ProfileUiState.Success).profileEntity
