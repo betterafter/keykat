@@ -27,6 +27,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.keykat.presentation.navigation.Graph
 import com.keykat.presentation.navigation.MainNavHost
+import com.keykat.presentation.navigation.Screen
 import com.keykat.presentation.ui.theme.KeykatTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -49,35 +50,45 @@ class MainActivity : ComponentActivity() {
                         val navController = rememberNavController()
                         val bottoms = arrayOf(Graph.Profile)
 
+                        val navBackStackEntry by navController.currentBackStackEntryAsState()
+                        val allowBottomNavigationBarList = listOf(
+                            Screen.Profile
+                        )
+
                         Scaffold(
                             bottomBar = {
-                                NavigationBar {
-                                    val navBackStackEntry by navController.currentBackStackEntryAsState()
-                                    val currentDestination = navBackStackEntry?.destination
-                                    bottoms.forEach { screen ->
-                                        NavigationBarItem(
-                                            icon = {
-                                                screen.icon?.let {
-                                                    Icon(
-                                                        screen.icon,
-                                                        contentDescription = null
-                                                    )
-                                                }
-                                            },
-                                            label = { Text(stringResource(screen.resourceId)) },
-                                            selected = currentDestination?.hierarchy?.any {
-                                                it.route == screen.route
-                                            } == true,
-                                            onClick = {
-                                                navController.navigate(screen.route) {
-                                                    popUpTo(navController.graph.findStartDestination().id) {
-                                                        saveState = true
+                                val currentDestination = navBackStackEntry?.destination
+                                val shouldShowBottomNavigationBar = allowBottomNavigationBarList.find {
+                                    currentDestination?.route == it.route
+                                } != null
+
+                                if (shouldShowBottomNavigationBar) {
+                                    NavigationBar {
+                                        bottoms.forEach { screen ->
+                                            NavigationBarItem(
+                                                icon = {
+                                                    screen.icon?.let {
+                                                        Icon(
+                                                            screen.icon,
+                                                            contentDescription = null
+                                                        )
                                                     }
-                                                    launchSingleTop = true
-                                                    restoreState = true
+                                                },
+                                                label = { Text(stringResource(screen.resourceId)) },
+                                                selected = currentDestination?.hierarchy?.any {
+                                                    it.route == screen.route
+                                                } == true,
+                                                onClick = {
+                                                    navController.navigate(screen.route) {
+                                                        popUpTo(navController.graph.findStartDestination().id) {
+                                                            saveState = true
+                                                        }
+                                                        launchSingleTop = true
+                                                        restoreState = true
+                                                    }
                                                 }
-                                            }
-                                        )
+                                            )
+                                        }
                                     }
                                 }
                             }

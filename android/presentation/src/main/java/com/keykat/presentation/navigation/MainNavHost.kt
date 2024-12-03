@@ -22,5 +22,9 @@ fun MainNavHost(
         profileNavGraph(
             navController = navController
         )
+
+        webNavGraph(
+            navController = navController
+        )
     }
 }
