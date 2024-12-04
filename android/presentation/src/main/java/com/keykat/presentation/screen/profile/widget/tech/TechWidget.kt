@@ -25,6 +25,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -52,51 +53,37 @@ fun TechWidget(
         verticalArrangement = Arrangement.Bottom,
         modifier = Modifier
             .fillMaxSize()
-//            .padding(end = 20.dp)
     ) {
-        Row(
+        Text(
+            text = "Tech Stack",
+            style = MaterialTheme.typography.headlineLarge,
+            modifier = Modifier
+                .weight(1f)
+                .padding(top = 20.dp, start = 20.dp)
+        )
 
+        Box(
+            modifier = Modifier
+                .weight(8f)
+                .padding(top = 10.dp, start = 20.dp, end = 20.dp)
         ) {
-            Box(
-                contentAlignment = Alignment.BottomStart,
-            ) {
-                HorizontalPager(
-                    state = pagerState,
-                    modifier = Modifier
-                        .horizontalScroll(scrollState)
-                        .background(
-                            color = MaterialTheme.colorScheme.primary,
-                            shape = RoundedCornerShape(
-                                topEnd = 160f
-                            )
-                        )
-                        .padding(top = 20.dp, bottom = 10.dp)
-                        .width(200.dp),
-                    verticalAlignment = Alignment.Bottom,
-                    contentPadding = PaddingValues(
-                        start = 60.dp, end = 50.dp
-                    ),
-                    pageSpacing = 8.dp,
-                ) { page ->
-                    val tech = techEntity[page]
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier
-                            .background(
-                                color = MaterialTheme.colorScheme.background,
-                                shape = RoundedCornerShape(15)
-                            )
-                    ) {
-                        AsyncImage(
-                            model = tech.icon,
-                            contentDescription = tech.name,
-                            modifier = Modifier
-                                .size(80.dp)
-                                .padding(10.dp)
-                        )
-                    }
-                }
-            }
+            TechContentWidget(
+                techEntity = techEntity,
+                scrollState = scrollState,
+                pagerState = pagerState
+            )
+        }
+
+        Box(
+            contentAlignment = Alignment.BottomStart,
+            modifier = Modifier
+                .weight(2f)
+        ) {
+            TechControllerWidget(
+                techEntity = techEntity,
+                scrollState = scrollState,
+                pagerState = pagerState
+            )
         }
     }
 }
