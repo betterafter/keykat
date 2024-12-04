@@ -1,11 +1,6 @@
-import android.annotation.SuppressLint
-import android.webkit.WebView
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.animation.core.animateIntOffsetAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,20 +12,14 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Email
 import androidx.compose.material.icons.rounded.Phone
-import androidx.compose.material.icons.rounded.PhoneAndroid
-import androidx.compose.material.icons.rounded.Smartphone
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -38,13 +27,10 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -54,6 +40,7 @@ import com.keykat.domain.profile.entity.ProfileEntity
 import com.keykat.presentation.navigation.Screen
 import com.keykat.presentation.profileViewModel
 import com.keykat.presentation.screen.profile.ProfileViewModel
+import kotlinx.coroutines.delay
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -61,6 +48,7 @@ import com.keykat.presentation.screen.profile.ProfileViewModel
 fun ProfileTopWidget(
     navController: NavController,
     profileEntity: ProfileEntity,
+    currentIndex: Int,
     viewModel: ProfileViewModel = profileViewModel()
 ) {
     var namePosX by remember { mutableIntStateOf(800) }
@@ -77,10 +65,17 @@ fun ProfileTopWidget(
     )
 
     LaunchedEffect(scrollState?.currentPageOffsetFraction) {
-        if (scrollState != null) {
-            val position = scrollState.getOffsetFractionForPage(viewModel.currentPage.value)
-            namePosX = (position * 100 * 5).toInt()
-            contactPosX = (position * 100 * 8).toInt()
+        snapshotFlow { scrollState?.currentPage }.collect { page ->
+            if (page == currentIndex) {
+                if (scrollState != null) {
+                    val position = scrollState.getOffsetFractionForPage(viewModel.currentPage.value)
+                    namePosX = (position * 100 * 5).toInt()
+                    contactPosX = (position * 100 * 8).toInt()
+                }
+            } else {
+                namePosX = 800
+                contactPosX = 1800
+            }
         }
     }
 

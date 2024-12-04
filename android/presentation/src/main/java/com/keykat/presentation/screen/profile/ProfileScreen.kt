@@ -58,7 +58,8 @@ fun ProfileScreen(
             when(page) {
                 0 -> TopProfileSection(
                     topProfileState = topProfileState,
-                    navController = navController
+                    navController = navController,
+                    0,
                 )
 
                 1 -> EducationSection(
@@ -79,7 +80,8 @@ fun ProfileScreen(
 @Composable
 fun TopProfileSection(
     topProfileState: TopProfileUiState,
-    navController: NavController
+    navController: NavController,
+    currentIndex: Int
 ) {
     val pageHeight = Resources.getSystem().displayMetrics.heightPixels - navigationHeight
     Box(
@@ -92,6 +94,7 @@ fun TopProfileSection(
                 ProfileWidget(
                     navController = navController,
                     profileEntity = entity,
+                    currentIndex = currentIndex
                 )
             }
 

@@ -13,14 +13,16 @@ import com.keykat.domain.profile.entity.ProfileEntity
 @Composable
 fun ProfileWidget(
     navController: NavController,
-    profileEntity: ProfileEntity
+    profileEntity: ProfileEntity,
+    currentIndex: Int,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         ProfileTopWidget(
             navController = navController,
-            profileEntity = profileEntity
+            profileEntity = profileEntity,
+            currentIndex = currentIndex,
         )
         ProfileIntroduceWidget(
             profileEntity = profileEntity
