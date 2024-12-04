@@ -1,6 +1,8 @@
+import android.annotation.SuppressLint
 import android.webkit.WebView
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.animation.core.animateIntOffsetAsState
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +14,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
@@ -23,7 +26,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -39,24 +44,37 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.keykat.domain.profile.entity.ProfileEntity
 import com.keykat.presentation.navigation.Screen
+import com.keykat.presentation.profileViewModel
+import com.keykat.presentation.screen.profile.ProfileViewModel
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ProfileTopWidget(
     navController: NavController,
     profileEntity: ProfileEntity,
-    scrollState: ScrollState
+    viewModel: ProfileViewModel = profileViewModel()
 ) {
+    var namePosX by remember { mutableIntStateOf(0) }
+    var contactPosX by remember { mutableIntStateOf(0) }
+    val scrollState = viewModel.getScrollState()
 
     val namePosition by animateIntOffsetAsState(
-        targetValue = IntOffset(scrollState.value / 3, 0),
+        targetValue = IntOffset(namePosX, 0),
         label = ""
     )
     val contactPosition by animateIntOffsetAsState(
-        targetValue = IntOffset(scrollState.value / 2, 0),
+        targetValue = IntOffset(contactPosX, 0),
         label = ""
     )
+
+    LaunchedEffect(scrollState?.currentPageOffsetFraction) {
+        if (scrollState != null) {
+            val position = scrollState.getOffsetFractionForPage(0)
+            namePosX = (position * 100 * 5).toInt()
+            contactPosX = (position * 100 * 8).toInt()
+        }
+    }
 
     var currentSnsLink by remember { mutableStateOf("") }
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -69,7 +87,7 @@ fun ProfileTopWidget(
             alignment = Alignment.Center,
             contentDescription = "profile",
             modifier = Modifier
-                .padding(top = 10.dp, bottom = 20.dp)
+                .padding(top = 40.dp, bottom = 20.dp)
                 .width(120.dp)
                 .height(120.dp)
                 .clip(CircleShape)

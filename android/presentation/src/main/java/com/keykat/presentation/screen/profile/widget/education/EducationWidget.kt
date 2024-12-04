@@ -6,12 +6,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.keykat.domain.profile.entity.EducationEntity
+import com.keykat.presentation.profileViewModel
+import com.keykat.presentation.screen.profile.ProfileViewModel
 
 
 @Composable
 fun EducationWidget(
     educationEntity: List<EducationEntity>,
-    scrollState: ScrollState
+    viewModel: ProfileViewModel = profileViewModel()
 ) {
     Column {
         educationEntity.map { 
