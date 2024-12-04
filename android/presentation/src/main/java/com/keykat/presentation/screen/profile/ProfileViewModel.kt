@@ -1,38 +1,72 @@
 package com.keykat.presentation.screen.profile
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.pager.PagerState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import usecase.ProfileUseCase
+import java.lang.Thread.State
 import javax.inject.Inject
 
+@OptIn(ExperimentalFoundationApi::class)
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val profileUseCase: ProfileUseCase
 ) : ViewModel() {
-    private val _profile = MutableStateFlow<ProfileUiState>(ProfileUiState.Init)
-    val profile: StateFlow<ProfileUiState> = _profile
+    private val _scrollState = MutableStateFlow<PagerState?>(null)
+    val scrollState: MutableStateFlow<PagerState?> = _scrollState
+
+    private val _topProfile = MutableStateFlow<TopProfileUiState>(TopProfileUiState.Init)
+    val topProfile: StateFlow<TopProfileUiState> = _topProfile
+
+    private val _bottomProfile = MutableStateFlow<BottomProfileUiState>(BottomProfileUiState.Init)
+    val bottomProfile: StateFlow<BottomProfileUiState> = _bottomProfile
+
+    private val _currentPage = MutableStateFlow(0)
+    val currentPage: StateFlow<Int> = _currentPage
+
+    fun setCurrentPage(index: Int) {
+        _currentPage.value = index
+    }
+
+    fun setScrollState(scrollState: PagerState) {
+        _scrollState.value = scrollState
+        println("[keykat] scroll: ${scrollState}")
+    }
+
+    fun getScrollState() = _scrollState.value
 
     suspend fun initTopProfile() {
-        _profile.value = ProfileUiState.Loading
+        _topProfile.value = TopProfileUiState.Loading
         viewModelScope.launch {
             profileUseCase.getTopProfile()
                 .catch { e ->
-                    _profile.value = ProfileUiState.Error(e)
+                    _topProfile.value = TopProfileUiState.Error(e)
                 }.collect {
                     if (it != null) {
-                        _profile.value = ProfileUiState.Success(it)
+                        _topProfile.value = TopProfileUiState.Success(it)
                     } else {
-                        _profile.value = ProfileUiState.Error()
+                        _topProfile.value = TopProfileUiState.Error()
                     }
                 }
         }
     }
 
+    suspend fun initBottomProfile() {
+        _bottomProfile.value = BottomProfileUiState.Loading
+        viewModelScope.launch {
+            profileUseCase.getBottomProfile()
+                .catch { e ->
+                    _bottomProfile.value = BottomProfileUiState.Error(e)
+                }.collect {
+                    _bottomProfile.value = BottomProfileUiState.Success(it)
+                }
+        }
+    }
 }

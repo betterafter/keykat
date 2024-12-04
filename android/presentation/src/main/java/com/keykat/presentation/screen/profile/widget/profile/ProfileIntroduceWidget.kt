@@ -1,25 +1,42 @@
 package com.keykat.presentation.screen.profile.widget.profile
 
 import androidx.compose.animation.core.animateIntOffsetAsState
-import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.keykat.domain.profile.entity.ProfileEntity
+import com.keykat.presentation.profileViewModel
+import com.keykat.presentation.screen.profile.ProfileViewModel
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ProfileIntroduceWidget(
     profileEntity: ProfileEntity,
-    scrollState: ScrollState
+    viewModel: ProfileViewModel = profileViewModel()
 ) {
+    val scrollState = viewModel.getScrollState()
+    var introducePosX by remember { mutableIntStateOf(-800) }
+
+    LaunchedEffect(scrollState?.currentPageOffsetFraction) {
+        if (scrollState != null) {
+            val position = scrollState.getOffsetFractionForPage(0)
+            introducePosX = -(position * 100 * 5).toInt()
+        }
+    }
+
     val introducePosition by animateIntOffsetAsState(
-        targetValue = IntOffset(-scrollState.value / 2, 0),
+        targetValue = IntOffset(introducePosX, 0),
         label = ""
     )
 
