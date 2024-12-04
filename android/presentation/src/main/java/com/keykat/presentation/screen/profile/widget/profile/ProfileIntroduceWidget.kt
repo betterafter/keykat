@@ -26,7 +26,7 @@ fun ProfileIntroduceWidget(
     viewModel: ProfileViewModel = profileViewModel()
 ) {
     val scrollState = viewModel.getScrollState()
-    var introducePosX by remember { mutableIntStateOf(0) }
+    var introducePosX by remember { mutableIntStateOf(-800) }
 
     LaunchedEffect(scrollState?.currentPageOffsetFraction) {
         if (scrollState != null) {

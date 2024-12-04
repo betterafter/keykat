@@ -63,8 +63,8 @@ fun ProfileTopWidget(
     profileEntity: ProfileEntity,
     viewModel: ProfileViewModel = profileViewModel()
 ) {
-    var namePosX by remember { mutableIntStateOf(0) }
-    var contactPosX by remember { mutableIntStateOf(0) }
+    var namePosX by remember { mutableIntStateOf(800) }
+    var contactPosX by remember { mutableIntStateOf(1800) }
     val scrollState = viewModel.getScrollState()
 
     val namePosition by animateIntOffsetAsState(
@@ -78,7 +78,7 @@ fun ProfileTopWidget(
 
     LaunchedEffect(scrollState?.currentPageOffsetFraction) {
         if (scrollState != null) {
-            val position = scrollState.getOffsetFractionForPage(0)
+            val position = scrollState.getOffsetFractionForPage(viewModel.currentPage.value)
             namePosX = (position * 100 * 5).toInt()
             contactPosX = (position * 100 * 8).toInt()
         }

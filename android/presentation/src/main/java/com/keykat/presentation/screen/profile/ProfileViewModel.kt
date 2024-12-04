@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import usecase.ProfileUseCase
+import java.lang.Thread.State
 import javax.inject.Inject
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -26,6 +27,13 @@ class ProfileViewModel @Inject constructor(
 
     private val _bottomProfile = MutableStateFlow<BottomProfileUiState>(BottomProfileUiState.Init)
     val bottomProfile: StateFlow<BottomProfileUiState> = _bottomProfile
+
+    private val _currentPage = MutableStateFlow(0)
+    val currentPage: StateFlow<Int> = _currentPage
+
+    fun setCurrentPage(index: Int) {
+        _currentPage.value = index
+    }
 
     fun setScrollState(scrollState: PagerState) {
         _scrollState.value = scrollState

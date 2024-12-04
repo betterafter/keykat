@@ -53,6 +53,8 @@ fun ProfileScreen(
             pageSpacing = 0.dp,
             contentPadding = PaddingValues(0.dp),
         ) { page ->
+            viewModel.setCurrentPage(pagerState.currentPage)
+
             when(page) {
                 0 -> TopProfileSection(
                     topProfileState = topProfileState,
@@ -61,7 +63,8 @@ fun ProfileScreen(
 
                 1 -> EducationSection(
                     bottomProfileState = bottomProfileState,
-                    navController = navController
+                    navController = navController,
+                    1,
                 )
 
                 2 -> TechSection(
@@ -110,7 +113,8 @@ fun TopProfileSection(
 @Composable
 fun EducationSection(
     bottomProfileState: BottomProfileUiState,
-    navController: NavController
+    navController: NavController,
+    currentIndex: Int
 ) {
     val pageHeight = Resources.getSystem().displayMetrics.heightPixels - navigationHeight
     when (bottomProfileState) {
@@ -120,10 +124,11 @@ fun EducationSection(
             val educationEntity = entity.first
             Box(
                 modifier = Modifier
-                    .height(pageHeight.dp)
+                    .fillMaxSize()
             ) {
                 EducationWidget(
                     educationEntity = educationEntity,
+                    currentIndex = currentIndex
                 )
             }
         }
@@ -158,7 +163,8 @@ fun TechSection(
                     .background(Color.Green)
             ) {
                 EducationWidget(
-                    educationEntity = educationEntity
+                    educationEntity = educationEntity,
+                    1
                 )
             }
         }
