@@ -25,6 +25,7 @@ import com.keykat.presentation.profileViewModel
 import com.keykat.presentation.screen.common.navigationHeight
 import com.keykat.presentation.screen.profile.widget.education.EducationWidget
 import com.keykat.presentation.screen.profile.widget.profile.ProfileWidget
+import com.keykat.presentation.screen.profile.widget.tech.TechWidget
 
 @OptIn(ExperimentalFoundationApi::class)
 @SuppressLint("ReturnFromAwaitPointerEventScope")
@@ -64,13 +65,12 @@ fun ProfileScreen(
 
                 1 -> EducationSection(
                     bottomProfileState = bottomProfileState,
-                    navController = navController,
                     1,
                 )
 
                 2 -> TechSection(
                     bottomProfileState = bottomProfileState,
-                    navController = navController
+                    currentIndex = 2
                 )
             }
         }
@@ -116,10 +116,8 @@ fun TopProfileSection(
 @Composable
 fun EducationSection(
     bottomProfileState: BottomProfileUiState,
-    navController: NavController,
     currentIndex: Int
 ) {
-    val pageHeight = Resources.getSystem().displayMetrics.heightPixels - navigationHeight
     when (bottomProfileState) {
         is BottomProfileUiState.Success -> {
             val entity =
@@ -153,21 +151,20 @@ fun EducationSection(
 @Composable
 fun TechSection(
     bottomProfileState: BottomProfileUiState,
-    navController: NavController
+    currentIndex: Int
 ) {
     when (bottomProfileState) {
         is BottomProfileUiState.Success -> {
             val entity =
                 bottomProfileState.bottomProfileEntity
-            val educationEntity = entity.first
             val techEntity = entity.second
             Box(
                 modifier = Modifier
-                    .background(Color.Green)
+                    .fillMaxSize()
             ) {
-                EducationWidget(
-                    educationEntity = educationEntity,
-                    1
+                TechWidget(
+                    techEntity = techEntity,
+                    currentIndex = currentIndex
                 )
             }
         }
