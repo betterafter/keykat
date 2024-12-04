@@ -2,8 +2,11 @@ import android.annotation.SuppressLint
 import android.webkit.WebView
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.animation.core.animateIntOffsetAsState
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,10 +19,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Email
+import androidx.compose.material.icons.rounded.Phone
 import androidx.compose.material.icons.rounded.PhoneAndroid
+import androidx.compose.material.icons.rounded.Smartphone
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -36,6 +42,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
@@ -105,28 +113,59 @@ fun ProfileTopWidget(
             modifier = Modifier
                 .offset { contactPosition }
         ) {
-            Row {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Icon(
                     imageVector = Icons.Rounded.Email,
                     contentDescription = "이메일 아이콘",
+                    tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier
                         .size(20.dp)
                         .padding(2.dp)
                 )
+
+                Box(
+                    modifier = Modifier
+                        .width(14.dp)
+                        .height(16.dp)
+                        .padding(start = 4.dp, end = 8.dp)
+                        .border(
+                            width = 2.dp,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                )
+
                 Text(
                     text = profileEntity.email.toString(),
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }
-            Row {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .padding(5.dp)
+            ) {
                 Icon(
-                    imageVector = Icons.Rounded.PhoneAndroid,
+                    imageVector = Icons.Rounded.Phone,
                     contentDescription = "이메일 아이콘",
+                    tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier
                         .size(20.dp)
                         .padding(2.dp)
-
                 )
+
+                Box(
+                    modifier = Modifier
+                        .width(12.dp)
+                        .height(16.dp)
+                        .padding(start = 2.dp, end = 8.dp)
+                        .border(
+                            width = 2.dp,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                )
+
                 Text(
                     text = profileEntity.tel.toString(),
                     style = MaterialTheme.typography.bodyMedium,
@@ -139,21 +178,32 @@ fun ProfileTopWidget(
             ) {
                 profileEntity.sns?.map { curr ->
                     curr?.icon?.let {
-                        AsyncImage(
+                        Box(
                             modifier = Modifier
-                                .padding(start = 5.dp, top = 10.dp, end = 5.dp, bottom = 10.dp)
-                                .size(25.dp)
-                                .clickable {
-
-                                    showBottomSheet = true
-                                    currentSnsLink = curr.url ?: curr.webUrl.toString()
-                                    navController.navigate(
-                                        route = Screen.Web.createRoute(currentSnsLink),
+                                .padding(3.dp)
+                        ) {
+                            AsyncImage(
+                                modifier = Modifier
+                                    .border(
+                                        border = BorderStroke(
+                                            1.dp,
+                                            color = MaterialTheme.colorScheme.primary
+                                        ),
+                                        shape = RoundedCornerShape(30)
                                     )
-                                },
-                            model = curr.icon,
-                            contentDescription = curr.name,
-                        )
+                                    .padding(4.dp)
+                                    .size(25.dp)
+                                    .clickable {
+                                        showBottomSheet = true
+                                        currentSnsLink = curr.url ?: curr.webUrl.toString()
+                                        navController.navigate(
+                                            route = Screen.Web.createRoute(currentSnsLink),
+                                        )
+                                    },
+                                model = curr.icon,
+                                contentDescription = curr.name,
+                            )
+                        }
                     }
                 }
             }

@@ -116,12 +116,11 @@ fun EducationSection(
     when (bottomProfileState) {
         is BottomProfileUiState.Success -> {
             val entity =
-                (bottomProfileState as BottomProfileUiState.Success).bottomProfileEntity
+                bottomProfileState.bottomProfileEntity
             val educationEntity = entity.first
-            val techEntity = entity.second
             Box(
                 modifier = Modifier
-                    .background(Color.Green)
+                    .height(pageHeight.dp)
             ) {
                 EducationWidget(
                     educationEntity = educationEntity,
