@@ -59,6 +59,7 @@ object ProfileMapper {
             name = this.name,
             icon = this.icon,
             content = this.content?.replace("\\n", "\n"),
+            stacks = this.stacks,
         )
     }
 }
