@@ -18,6 +18,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -32,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.keykat.domain.profile.entity.TechEntity
@@ -49,20 +51,20 @@ fun TechControllerWidget(
         modifier = Modifier
             .height(300.dp)
             .fillMaxWidth()
-            .background(color = MaterialTheme.colorScheme.primary)
+            .background(color = MaterialTheme.colorScheme.inversePrimary)
     ) {
         HorizontalPager(
             state = pagerState,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(300.dp)
-                .background(MaterialTheme.colorScheme.primary)
+                .background(MaterialTheme.colorScheme.inversePrimary)
                 .padding(top = 20.dp, bottom = 10.dp),
             verticalAlignment = Alignment.Bottom,
             contentPadding = PaddingValues(
                 horizontal = 120.dp
             ),
-            pageSpacing = 30.dp,
+            pageSpacing = 20.dp,
         ) { page ->
             val tech = techEntity[page]
             TechItem(
@@ -101,7 +103,13 @@ fun TechItem(
                 rotationZ = cardRotation
             },
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 3.dp
+            defaultElevation = 0.1.dp
+        ),
+        colors = CardColors(
+            contentColor = MaterialTheme.colorScheme.background,
+            containerColor = MaterialTheme.colorScheme.background,
+            disabledContentColor = MaterialTheme.colorScheme.background,
+            disabledContainerColor = MaterialTheme.colorScheme.background,
         )
     ) {
         Column(
@@ -115,28 +123,36 @@ fun TechItem(
             Box(
                 contentAlignment = Alignment.BottomCenter,
                 modifier = Modifier
+                    .width(120.dp)
                     .height(150.dp)
                     .background(
-                        color = MaterialTheme.colorScheme.background,
+                        color = MaterialTheme.colorScheme.background.copy(
+                            alpha = 0f
+                        ),
                         shape = RoundedCornerShape(15)
                     )
 
             ) {
-                AsyncImage(
-                    model = tech.icon,
-                    contentDescription = tech.name,
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .size(80.dp)
-                        .padding(10.dp)
-                )
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    AsyncImage(
+                        model = tech.icon,
+                        contentDescription = tech.name,
+                        modifier = Modifier
+                            .size(80.dp)
+                            .padding(10.dp)
+                    )
+
+                    Spacer(modifier = Modifier.height(5.dp))
+                    Text(
+                        text = tech.name,
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center,
+                        color = Color.White
+                    )
+                }
             }
-            Spacer(modifier = Modifier.padding(3.dp))
-            Text(
-                text = tech.name,
-                style = MaterialTheme.typography.bodyMedium,
-                color = Color.White
-            )
         }
     }
 }
