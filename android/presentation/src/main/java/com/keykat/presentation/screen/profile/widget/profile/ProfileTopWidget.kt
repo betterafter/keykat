@@ -1,7 +1,8 @@
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.animation.core.animateIntOffsetAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -34,8 +35,10 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -85,6 +88,9 @@ fun ProfileTopWidget(
 
     var currentSnsLink by remember { mutableStateOf("") }
     var showBottomSheet by remember { mutableStateOf(false) }
+    val currentContext = LocalContext.current
+    val clipboardManager = LocalClipboardManager.current
+
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
@@ -138,6 +144,14 @@ fun ProfileTopWidget(
                 Text(
                     text = profileEntity.email.toString(),
                     style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier
+                        .clickable {
+                            clipboardManager.setText(
+                                annotatedString = AnnotatedString(
+                                    profileEntity.email.toString()
+                                )
+                            )
+                        }
                 )
             }
             Row(
@@ -168,6 +182,16 @@ fun ProfileTopWidget(
                 Text(
                     text = profileEntity.tel.toString(),
                     style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier
+                        .clickable {
+                            val telephone = profileEntity.tel?.replace("-", "")
+                            currentContext.startActivity(
+                                Intent(
+                                    Intent.ACTION_VIEW,
+                                    Uri.parse("tel:$telephone")
+                                )
+                            )
+                        }
                 )
             }
             Row(
