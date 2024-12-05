@@ -9,6 +9,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,10 +20,12 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -30,12 +33,17 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.keykat.domain.profile.entity.TechEntity
+import com.keykat.presentation.screen.common.toDp
+import java.lang.Math.pow
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.sin
+import kotlin.math.sqrt
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -46,8 +54,9 @@ fun TechControllerWidget(
 ) {
     val arcColor = MaterialTheme.colorScheme.background
 
+
     Box(
-        contentAlignment = Alignment.TopStart,
+        contentAlignment = Alignment.TopCenter,
         modifier = Modifier
             .height(300.dp)
             .fillMaxWidth()
@@ -58,13 +67,13 @@ fun TechControllerWidget(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(300.dp)
-            .background(MaterialTheme.colorScheme.primary)
-                .padding(top = 10.dp, bottom = 10.dp),
+                .background(MaterialTheme.colorScheme.primary)
+                .padding(top = 20.dp, bottom = 10.dp),
             verticalAlignment = Alignment.Bottom,
             contentPadding = PaddingValues(
-                horizontal = 100.dp
+                horizontal = 120.dp
             ),
-            pageSpacing = 0.dp,
+            pageSpacing = 30.dp,
         ) { page ->
             val tech = techEntity[page]
             TechItem(
@@ -74,10 +83,11 @@ fun TechControllerWidget(
             )
         }
 
-        Box(modifier = Modifier
-            .height(80.dp)
-            .fillMaxWidth()
-            .background(color = MaterialTheme.colorScheme.background)
+        Box(
+            modifier = Modifier
+                .height(80.dp)
+                .fillMaxWidth()
+                .background(color = MaterialTheme.colorScheme.background)
         )
 
         Canvas(
@@ -102,14 +112,26 @@ fun TechItem(
     currentIndex: Int,
     tech: TechEntity
 ) {
-    var iconSize by remember { mutableIntStateOf(80) }
+    val itemWidth = Resources.getSystem().displayMetrics.widthPixels / 3
+    var cardRotation by remember { mutableFloatStateOf(0f) }
+    var cardBottomPadding by remember { mutableFloatStateOf(0f) }
 
     LaunchedEffect(pagerState.getOffsetFractionForPage(currentIndex)) {
         snapshotFlow { pagerState.currentPage }.collect {
-            iconSize = (80 - 20 * abs(pagerState.getOffsetFractionForPage(currentIndex))).toInt()
+            cardRotation =
+                20 * pagerState.getOffsetFractionForPage(currentIndex)
+            cardBottomPadding = 40 * abs(pagerState.getOffsetFractionForPage(currentIndex))
         }
     }
-    Box() {
+    Card(
+        modifier = Modifier
+            .fillMaxHeight()
+            .width(itemWidth.toDp.dp)
+            .padding(bottom = 10.dp + cardBottomPadding.dp)
+            .graphicsLayer {
+                rotationZ = cardRotation
+            }
+    ) {
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
@@ -123,7 +145,7 @@ fun TechItem(
                 contentDescription = tech.name,
                 modifier = Modifier
                     .align(Alignment.Center)
-                    .size(iconSize.dp)
+                    .size(80.dp)
                     .padding(10.dp)
             )
         }

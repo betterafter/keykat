@@ -39,6 +39,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.keykat.domain.profile.entity.TechEntity
@@ -56,24 +57,19 @@ fun TechWidget(
     val pagerState = rememberPagerState(
         pageCount = { techEntity.size },
         initialPage = techEntity.size / 2,
-        initialPageOffsetFraction = 0.1f
     )
 
     Box(
-        contentAlignment = Alignment.BottomCenter
+        contentAlignment = Alignment.BottomStart
     ) {
-        Column {
-            TechControllerWidget(
-                techEntity = techEntity,
-                scrollState = scrollState,
-                pagerState = pagerState
-            )
-        }
+        TechControllerWidget(
+            techEntity = techEntity,
+            scrollState = scrollState,
+            pagerState = pagerState
+        )
 
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxSize()
+            modifier = Modifier.fillMaxSize()
         ) {
             Text(
                 text = "Tech Stack",
