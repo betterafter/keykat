@@ -2,7 +2,6 @@ package com.keykat.presentation.screen.common
 
 import android.content.res.Resources
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 
 const val navigationHeight = 72F
 

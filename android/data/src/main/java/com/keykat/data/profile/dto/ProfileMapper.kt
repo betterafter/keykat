@@ -46,7 +46,7 @@ object ProfileMapper {
             name = this.name,
             where = this.where ?: "",
             duration = duration,
-            content = this.content ?: ""
+            content = this.content?.replace("\\n", "\n") ?: "",
         )
     }
 
@@ -58,7 +58,8 @@ object ProfileMapper {
         return TechEntity(
             name = this.name,
             icon = this.icon,
-            content = this.content
+            content = this.content?.replace("\\n", "\n"),
+            stacks = this.stacks,
         )
     }
 }
