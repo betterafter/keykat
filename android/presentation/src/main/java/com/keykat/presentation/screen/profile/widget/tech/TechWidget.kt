@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,7 +19,6 @@ import com.keykat.domain.profile.entity.TechEntity
 fun TechWidget(
     techEntity: List<TechEntity>,
 ) {
-    val scrollState = rememberScrollState()
     val pagerState = rememberPagerState(
         pageCount = { techEntity.size },
         initialPage = techEntity.size / 2,
@@ -31,7 +29,6 @@ fun TechWidget(
     ) {
         TechControllerWidget(
             techEntity = techEntity,
-            scrollState = scrollState,
             pagerState = pagerState
         )
 

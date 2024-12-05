@@ -40,7 +40,6 @@ import com.keykat.domain.profile.entity.ProfileEntity
 import com.keykat.presentation.navigation.Screen
 import com.keykat.presentation.profileViewModel
 import com.keykat.presentation.screen.profile.ProfileViewModel
-import kotlinx.coroutines.delay
 
 
 @OptIn(ExperimentalFoundationApi::class)
