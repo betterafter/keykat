@@ -1,6 +1,10 @@
 package com.keykat.presentation.screen.profile.widget.tech
 
+import android.content.Context
+import android.util.AttributeSet
+import android.view.View
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -14,6 +18,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -30,11 +35,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.keykat.domain.profile.entity.TechEntity
+import kotlin.math.cos
+import kotlin.math.sin
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -42,6 +51,7 @@ fun TechWidget(
     techEntity: List<TechEntity>,
     currentIndex: Int,
 ) {
+    val arcColor = MaterialTheme.colorScheme.background
     val scrollState = rememberScrollState()
     val pagerState = rememberPagerState(
         pageCount = { techEntity.size },
@@ -49,41 +59,39 @@ fun TechWidget(
         initialPageOffsetFraction = 0.1f
     )
 
-    Column(
-        verticalArrangement = Arrangement.Bottom,
-        modifier = Modifier
-            .fillMaxSize()
+    Box(
+        contentAlignment = Alignment.BottomCenter
     ) {
-        Text(
-            text = "Tech Stack",
-            style = MaterialTheme.typography.headlineLarge,
-            modifier = Modifier
-                .weight(1f)
-                .padding(top = 20.dp, start = 20.dp)
-        )
-
-        Box(
-            modifier = Modifier
-                .weight(8f)
-                .padding(top = 10.dp, start = 20.dp, end = 20.dp)
-        ) {
-            TechContentWidget(
+        Column {
+            TechControllerWidget(
                 techEntity = techEntity,
                 scrollState = scrollState,
                 pagerState = pagerState
             )
         }
 
-        Box(
-            contentAlignment = Alignment.BottomStart,
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .weight(2f)
+                .fillMaxSize()
         ) {
-            TechControllerWidget(
-                techEntity = techEntity,
-                scrollState = scrollState,
-                pagerState = pagerState
+            Text(
+                text = "Tech Stack",
+                style = MaterialTheme.typography.headlineLarge,
+                modifier = Modifier
+                    .padding(top = 20.dp, start = 20.dp)
             )
+
+            Box(
+                modifier = Modifier
+                    .padding(top = 10.dp, start = 20.dp, end = 20.dp)
+            ) {
+                TechContentWidget(
+                    techEntity = techEntity,
+                    scrollState = scrollState,
+                    pagerState = pagerState
+                )
+            }
         }
     }
 }

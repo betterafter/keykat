@@ -1,5 +1,6 @@
 package com.keykat.presentation.screen.profile.widget.tech
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.PagerState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -41,7 +43,7 @@ fun TechContentWidget(
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
+            .height(210.dp)
     ) {
         Text(
             text = tech.name
