@@ -87,26 +87,6 @@ fun TechControllerWidget(
                 tech = tech
             )
         }
-
-        Box(
-            modifier = Modifier
-                .height(80.dp)
-                .fillMaxWidth()
-                .background(color = MaterialTheme.colorScheme.background)
-        )
-
-        Canvas(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(160.dp)
-        ) {
-            drawArc(
-                color = arcColor,
-                startAngle = 0f,
-                sweepAngle = 180f,
-                useCenter = true,
-            )
-        }
     }
 }
 
@@ -132,7 +112,7 @@ fun TechItem(
         modifier = Modifier
             .fillMaxHeight()
             .width(itemWidth.toDp.dp)
-            .padding(bottom = 10.dp + cardBottomPadding.dp)
+            .padding(bottom = 20.dp + cardBottomPadding.dp)
             .graphicsLayer {
                 rotationZ = cardRotation
             },

@@ -52,7 +52,7 @@ fun TechContentWidget(
 
         Column(
             modifier = Modifier
-                .height(210.dp)
+                .height(270.dp)
                 .verticalScroll(scrollState)
         ) {
             Text(text = tech.content.toString(), style = MaterialTheme.typography.bodyMedium)

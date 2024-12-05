@@ -87,6 +87,28 @@ fun TechWidget(
                     pagerState = pagerState
                 )
             }
+
+            Box {
+                Box(
+                    modifier = Modifier
+                        .height(80.dp)
+                        .fillMaxWidth()
+                        .background(color = arcColor)
+                )
+
+                Canvas(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(160.dp)
+                ) {
+                    drawArc(
+                    color = arcColor,
+                        startAngle = 0f,
+                        sweepAngle = 180f,
+                        useCenter = true,
+                    )
+                }
+            }
         }
     }
 }
