@@ -58,7 +58,7 @@ object ProfileMapper {
         return TechEntity(
             name = this.name,
             icon = this.icon,
-            content = this.content
+            content = this.content?.replace("\\n", "\n"),
         )
     }
 }

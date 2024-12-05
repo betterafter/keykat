@@ -84,7 +84,6 @@ fun TechWidget(
             ) {
                 TechContentWidget(
                     techEntity = techEntity,
-                    scrollState = scrollState,
                     pagerState = pagerState
                 )
             }
