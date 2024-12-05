@@ -46,7 +46,7 @@ object ProfileMapper {
             name = this.name,
             where = this.where ?: "",
             duration = duration,
-            content = this.content ?: ""
+            content = this.content?.replace("\\n", "\n") ?: "",
         )
     }
 
