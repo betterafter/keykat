@@ -3,22 +3,17 @@ package com.keykat.presentation.screen.profile
 import android.annotation.SuppressLint
 import android.content.res.Resources
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.keykat.presentation.profileViewModel
@@ -69,8 +64,7 @@ fun ProfileScreen(
                 )
 
                 2 -> TechSection(
-                    bottomProfileState = bottomProfileState,
-                    currentIndex = 2
+                    bottomProfileState = bottomProfileState
                 )
             }
         }
@@ -150,8 +144,7 @@ fun EducationSection(
 
 @Composable
 fun TechSection(
-    bottomProfileState: BottomProfileUiState,
-    currentIndex: Int
+    bottomProfileState: BottomProfileUiState
 ) {
     when (bottomProfileState) {
         is BottomProfileUiState.Success -> {
@@ -163,8 +156,7 @@ fun TechSection(
                     .fillMaxSize()
             ) {
                 TechWidget(
-                    techEntity = techEntity,
-                    currentIndex = currentIndex
+                    techEntity = techEntity
                 )
             }
         }
