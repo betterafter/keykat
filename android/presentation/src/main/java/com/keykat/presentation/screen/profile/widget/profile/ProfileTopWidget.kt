@@ -1,8 +1,10 @@
 import androidx.compose.animation.core.animateIntOffsetAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,6 +14,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -31,6 +34,8 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -168,25 +173,30 @@ fun ProfileTopWidget(
             Row(
                 horizontalArrangement = Arrangement.SpaceAround,
                 modifier = Modifier
+                    .horizontalScroll(rememberScrollState())
 
             ) {
                 profileEntity.sns?.map { curr ->
                     curr?.icon?.let {
                         Box(
+                            contentAlignment = Alignment.Center,
                             modifier = Modifier
-                                .padding(3.dp)
+                                .clip(CircleShape)
+                                .size(40.dp)
+                                .padding(6.dp)
+                                .border(
+                                    border = BorderStroke(
+                                        1.dp,
+                                        color = MaterialTheme.colorScheme.primary
+                                    ),
+                                    shape = RoundedCornerShape(30)
+                                )
                         ) {
                             AsyncImage(
+                                contentScale = ContentScale.Crop,
                                 modifier = Modifier
-                                    .border(
-                                        border = BorderStroke(
-                                            1.dp,
-                                            color = MaterialTheme.colorScheme.primary
-                                        ),
-                                        shape = RoundedCornerShape(30)
-                                    )
-                                    .padding(4.dp)
-                                    .size(25.dp)
+                                    .clip(shape = RoundedCornerShape(30))
+                                    .size(30.dp)
                                     .clickable {
                                         showBottomSheet = true
                                         currentSnsLink = curr.url ?: curr.webUrl.toString()
