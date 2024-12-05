@@ -6,9 +6,11 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,7 +23,10 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CardElevation
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -130,23 +135,42 @@ fun TechItem(
             .padding(bottom = 10.dp + cardBottomPadding.dp)
             .graphicsLayer {
                 rotationZ = cardRotation
-            }
+            },
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 3.dp
+        )
     ) {
-        Box(
-            contentAlignment = Alignment.Center,
+        Column(
             modifier = Modifier
-                .background(
-                    color = MaterialTheme.colorScheme.primary,
-                    shape = RoundedCornerShape(15)
-                )
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .padding(bottom = 10.dp),
+            verticalArrangement = Arrangement.Bottom,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            AsyncImage(
-                model = tech.icon,
-                contentDescription = tech.name,
+            Box(
+                contentAlignment = Alignment.BottomCenter,
                 modifier = Modifier
-                    .align(Alignment.Center)
-                    .size(80.dp)
-                    .padding(10.dp)
+                    .height(150.dp)
+                    .background(
+                        color = MaterialTheme.colorScheme.primary,
+                        shape = RoundedCornerShape(15)
+                    )
+            ) {
+                AsyncImage(
+                    model = tech.icon,
+                    contentDescription = tech.name,
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .size(80.dp)
+                        .padding(10.dp)
+                )
+            }
+            Spacer(modifier = Modifier.padding(3.dp))
+            Text(
+                text = tech.name,
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color.White
             )
         }
     }
