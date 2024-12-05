@@ -2,8 +2,11 @@ package com.keykat.presentation.screen.profile.widget.profile
 
 import androidx.compose.animation.core.animateIntOffsetAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,11 +43,15 @@ fun ProfileIntroduceWidget(
         label = ""
     )
 
-    Text(
-        text = profileEntity.introduce.toString(),
-        style = MaterialTheme.typography.bodyMedium,
-        modifier = Modifier
-            .padding(horizontal = 20.dp, vertical = 20.dp)
-            .offset { introducePosition }
-    )
+    Column(
+        modifier = Modifier.verticalScroll(rememberScrollState())
+    ) {
+        Text(
+            text = profileEntity.introduce.toString(),
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier
+                .padding(horizontal = 20.dp, vertical = 20.dp)
+                .offset { introducePosition }
+        )
+    }
 }

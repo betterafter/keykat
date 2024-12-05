@@ -31,7 +31,6 @@ import com.keykat.presentation.navigation.Graph
 import com.keykat.presentation.navigation.MainNavHost
 import com.keykat.presentation.navigation.Screen
 import com.keykat.presentation.screen.common.navigationHeight
-import com.keykat.presentation.screen.common.toDp
 import com.keykat.presentation.ui.theme.KeykatTheme
 import dagger.hilt.android.AndroidEntryPoint
 
