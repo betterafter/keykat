@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
@@ -51,20 +52,19 @@ fun TechControllerWidget(
         modifier = Modifier
             .height(300.dp)
             .fillMaxWidth()
-            .background(color = MaterialTheme.colorScheme.inversePrimary)
     ) {
         HorizontalPager(
             state = pagerState,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(300.dp)
-                .background(MaterialTheme.colorScheme.inversePrimary)
+                .background(MaterialTheme.colorScheme.onSecondaryContainer)
                 .padding(top = 20.dp, bottom = 10.dp),
             verticalAlignment = Alignment.Bottom,
             contentPadding = PaddingValues(
-                horizontal = 120.dp
+                horizontal = 90.dp
             ),
-            pageSpacing = 20.dp,
+            pageSpacing = (-20).dp,
         ) { page ->
             val tech = techEntity[page]
             TechItem(
@@ -83,12 +83,21 @@ fun TechItem(
     currentIndex: Int,
     tech: TechEntity
 ) {
-    val itemWidth = Resources.getSystem().displayMetrics.widthPixels / 3
+    val centerColor = MaterialTheme.colorScheme.inversePrimary
+    val sideColor = MaterialTheme.colorScheme.surface
+    val itemWidth = (Resources.getSystem().displayMetrics.widthPixels / 3) + 200
     var cardRotation by remember { mutableFloatStateOf(0f) }
     var cardBottomPadding by remember { mutableFloatStateOf(0f) }
+    var cardColor by remember { mutableStateOf(centerColor) }
 
     LaunchedEffect(pagerState.getOffsetFractionForPage(currentIndex)) {
         snapshotFlow { pagerState.currentPage }.collect {
+            cardColor = if (currentIndex == it) {
+                centerColor
+            } else {
+                sideColor
+            }
+
             cardRotation =
                 20 * pagerState.getOffsetFractionForPage(currentIndex)
             cardBottomPadding = 40 * abs(pagerState.getOffsetFractionForPage(currentIndex))
@@ -103,13 +112,13 @@ fun TechItem(
                 rotationZ = cardRotation
             },
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 0.1.dp
+            defaultElevation = 10.dp
         ),
         colors = CardColors(
-            contentColor = MaterialTheme.colorScheme.background,
-            containerColor = MaterialTheme.colorScheme.background,
-            disabledContentColor = MaterialTheme.colorScheme.background,
-            disabledContainerColor = MaterialTheme.colorScheme.background,
+            contentColor = cardColor,
+            containerColor = cardColor,
+            disabledContentColor = cardColor,
+            disabledContainerColor = cardColor,
         )
     ) {
         Column(
