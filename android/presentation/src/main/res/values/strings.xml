@@ -3,6 +3,6 @@
 
     <string name="profile">Profile</string>
     <string name="career">Career</string>
-    <string name="portfolio">Portfolio</string>
+    <string name="portfolio">Project</string>
     <string name="web">웹</string>
 </resources>

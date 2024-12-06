@@ -25,16 +25,19 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -73,7 +76,9 @@ class MainActivity : ComponentActivity() {
 
                         val navBackStackEntry by navController.currentBackStackEntryAsState()
                         val allowBottomNavigationBarList = listOf(
-                            Screen.Profile
+                            Screen.Profile,
+                            Screen.Portfolio,
+                            Screen.Career
                         )
 
                         Scaffold(
@@ -92,23 +97,36 @@ class MainActivity : ComponentActivity() {
                                         windowInsets = WindowInsets(0.dp)
                                     ) {
                                         bottoms.forEach { screen ->
+                                            val current = currentDestination?.hierarchy?.any {
+                                                it.route == screen.route
+                                            } == true
+
                                             NavigationBarItem(
                                                 icon = {
                                                     screen.icon?.let {
-                                                        Row() {
+                                                        Row(
+                                                            verticalAlignment = Alignment.CenterVertically
+                                                        ) {
                                                             Icon(
                                                                 screen.icon,
-                                                                contentDescription = null
+                                                                contentDescription = null,
+                                                                modifier = Modifier.size(
+                                                                    if (current) {
+                                                                        18.dp
+                                                                    } else {
+                                                                        20.dp
+                                                                    }
+                                                                )
                                                             )
 
-                                                            if (currentDestination?.hierarchy?.any {
-                                                                    it.route == screen.route
-                                                                } == true) {
+                                                            if (current) {
                                                                 Spacer(modifier = Modifier.width(4.dp))
                                                                 Text(
                                                                     text = stringResource(
-                                                                        screen.resourceId
-                                                                    )
+                                                                        screen.resourceId,
+                                                                    ),
+                                                                    textAlign = TextAlign.Center,
+                                                                    style = MaterialTheme.typography.labelSmall
                                                                 )
                                                             }
                                                         }
