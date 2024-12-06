@@ -8,6 +8,8 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +19,7 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -62,7 +65,11 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize()
                     ) {
                         val navController = rememberNavController()
-                        val bottoms = arrayOf(Graph.Profile)
+                        val bottoms = arrayOf(
+                            Graph.Career,
+                            Graph.Profile,
+                            Graph.Portfolio
+                        )
 
                         val navBackStackEntry by navController.currentBackStackEntryAsState()
                         val allowBottomNavigationBarList = listOf(
@@ -84,37 +91,43 @@ class MainActivity : ComponentActivity() {
                                             .background(Color.Transparent),
                                         windowInsets = WindowInsets(0.dp)
                                     ) {
-                                        Box(
-                                            modifier = Modifier
-                                                .size(30.dp)
-                                        ) {
-                                            Icons.Rounded.Favorite
+                                        bottoms.forEach { screen ->
+                                            NavigationBarItem(
+                                                icon = {
+                                                    screen.icon?.let {
+                                                        Row() {
+                                                            Icon(
+                                                                screen.icon,
+                                                                contentDescription = null
+                                                            )
+
+                                                            if (currentDestination?.hierarchy?.any {
+                                                                    it.route == screen.route
+                                                                } == true) {
+                                                                Spacer(modifier = Modifier.width(4.dp))
+                                                                Text(
+                                                                    text = stringResource(
+                                                                        screen.resourceId
+                                                                    )
+                                                                )
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                selected = currentDestination?.hierarchy?.any {
+                                                    it.route == screen.route
+                                                } == true,
+                                                onClick = {
+                                                    navController.navigate(screen.route) {
+                                                        popUpTo(navController.graph.findStartDestination().id) {
+                                                            saveState = true
+                                                        }
+                                                        launchSingleTop = true
+                                                        restoreState = true
+                                                    }
+                                                }
+                                            )
                                         }
-//                                        bottoms.forEach { screen ->
-//                                            NavigationBarItem(
-//                                                icon = {
-//                                                    screen.icon?.let {
-//                                                        Icon(
-//                                                            screen.icon,
-//                                                            contentDescription = null
-//                                                        )
-//                                                    }
-//                                                },
-//                                                label = { Text(stringResource(screen.resourceId)) },
-//                                                selected = currentDestination?.hierarchy?.any {
-//                                                    it.route == screen.route
-//                                                } == true,
-//                                                onClick = {
-//                                                    navController.navigate(screen.route) {
-//                                                        popUpTo(navController.graph.findStartDestination().id) {
-//                                                            saveState = true
-//                                                        }
-//                                                        launchSingleTop = true
-//                                                        restoreState = true
-//                                                    }
-//                                                }
-//                                            )
-//                                        }
                                     }
                                 }
                             }
