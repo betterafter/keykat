@@ -10,5 +10,8 @@ data class TechDto(
     val icon: String?,
 
     @SerializedName("content")
-    val content: String?
+    val content: String?,
+
+    @SerializedName("stacks")
+    val stacks: List<String>?
 )

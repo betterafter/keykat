@@ -15,7 +15,8 @@ object ProfileMapper {
         return SnsEntity(
             name = this.name,
             url = this.url,
-            icon = this.icon
+            icon = this.icon,
+            webUrl = this.webUrl,
         )
     }
 
@@ -25,7 +26,7 @@ object ProfileMapper {
             tel = this.tel,
             email = this.email,
             profileUrl = this.profileUrl,
-            introduce = this.introduce,
+            introduce = this.introduce?.replace("\\n", "\n"),
             sns = this.sns?.map { it.toDomain() }?.toList()
         )
     }
@@ -45,7 +46,7 @@ object ProfileMapper {
             name = this.name,
             where = this.where ?: "",
             duration = duration,
-            content = this.content ?: ""
+            content = this.content?.replace("\\n", "\n") ?: "",
         )
     }
 
@@ -57,7 +58,8 @@ object ProfileMapper {
         return TechEntity(
             name = this.name,
             icon = this.icon,
-            content = this.content
+            content = this.content?.replace("\\n", "\n"),
+            stacks = this.stacks,
         )
     }
 }
