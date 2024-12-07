@@ -14,12 +14,14 @@ class CareerRepositoryImpl @Inject constructor(
     override suspend fun getCareer(): Flow<List<CareerEntity>> {
         return flow {
             try {
+                println("[keykat] ${careerApi.getCareer().body()}")
                 val careerEntity = careerApi.getCareer().body()?.mapNotNull {
                     it.toDomain()
                 } ?: mutableListOf()
 
                 emit(careerEntity)
             } catch (e: Exception) {
+                println("[keykat] e: $e")
                 emit(mutableListOf())
             }
         }

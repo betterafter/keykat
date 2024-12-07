@@ -35,7 +35,6 @@ class ProfileViewModel @Inject constructor(
 
     fun setScrollState(scrollState: PagerState) {
         _scrollState.value = scrollState
-        println("[keykat] scroll: ${scrollState}")
     }
 
     fun getScrollState() = _scrollState.value
