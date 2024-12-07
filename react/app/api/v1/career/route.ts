@@ -16,9 +16,9 @@ export async function GET() {
             )?.career_detail.push(item)
         })
 
-        return NextResponse.json({
-            career: career[0].career
-        });
+        console.log(career[0].career)
+
+        return NextResponse.json(career[0].career);
     } catch (error) {
         console.log(error)
         return NextResponse.json(
