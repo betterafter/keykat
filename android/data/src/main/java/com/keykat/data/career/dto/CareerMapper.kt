@@ -29,7 +29,7 @@ object CareerMapper {
         return CareerDetailEntity(
             name = this.name,
             duration = "${this.startAt} ~ ${this.endAt}",
-            description = this.description
+            description = this.description?.replace("\\n", "\n")
         )
     }
 }
