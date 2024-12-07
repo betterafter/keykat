@@ -3,7 +3,7 @@ package com.keykat.data.career.dto
 import com.google.gson.annotations.SerializedName
 
 data class CareerDetailDto(
-    @SerializedName("Project_name")
+    @SerializedName("project_name")
     val name: String?,
 
     @SerializedName("start_at")
