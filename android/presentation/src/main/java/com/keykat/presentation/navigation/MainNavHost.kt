@@ -19,6 +19,14 @@ fun MainNavHost(
             navController = navController
         )
 
+        careerNavGraph(
+            navController = navController
+        )
+
+        portfolioNavGraph(
+            navController = navController
+        )
+
         webNavGraph(
             navController = navController
         )

@@ -1,5 +1,6 @@
 package com.keykat.keykat.di.data
 
+import com.keykat.data.career.datasource.CareerApi
 import com.keykat.data.profile.datasource.ProfileApi
 import dagger.Module
 import dagger.Provides
@@ -20,6 +21,12 @@ object AppModule {
     @Provides
     fun provideProfileApi(retrofit: Retrofit): ProfileApi {
         return retrofit.create(ProfileApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideCareerApi(retrofit: Retrofit): CareerApi {
+        return retrofit.create(CareerApi::class.java)
     }
 
     // @Provides: 외부 라이브러리에서 사용되는 room, retrofit 같은
