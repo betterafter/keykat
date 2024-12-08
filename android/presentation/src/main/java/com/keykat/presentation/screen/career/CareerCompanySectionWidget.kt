@@ -16,10 +16,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.keykat.domain.career.entity.CareerEntity
-import com.keykat.presentation.careerViewModel
 
 @Composable
 fun CareerCompanySectionWidget(
+    mainColor: Color,
     careerEntity: CareerEntity
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -63,7 +63,7 @@ fun CareerCompanySectionWidget(
                 modifier = Modifier
                     .width(5.dp)
                     .height(5.dp)
-                    .background(color = MaterialTheme.colorScheme.primary, shape = CircleShape)
+                    .background(color = mainColor, shape = CircleShape)
             )
             Spacer(modifier = Modifier.width(6.dp))
             Text(
