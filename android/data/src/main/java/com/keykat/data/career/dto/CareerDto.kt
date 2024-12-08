@@ -21,6 +21,9 @@ data class CareerDto(
     @SerializedName("team_name")
     val teamName: String?,
 
+    @SerializedName("main_color")
+    val mainColor: String?,
+
     @SerializedName("career_detail")
     val careerDetail: List<CareerDetailDto>
 )

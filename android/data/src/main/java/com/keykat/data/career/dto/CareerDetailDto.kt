@@ -13,5 +13,11 @@ data class CareerDetailDto(
     val endAt: String?,
 
     @SerializedName("description")
-    val description: String?
+    val description: String?,
+
+    @SerializedName("introduce")
+    val introduce: String?,
+
+    @SerializedName("tech_stack")
+    val techStack: List<String>?
 )
