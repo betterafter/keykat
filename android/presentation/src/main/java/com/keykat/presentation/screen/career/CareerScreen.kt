@@ -26,7 +26,11 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.KeyboardDoubleArrowDown
+import androidx.compose.material.icons.rounded.KeyboardDoubleArrowUp
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
@@ -50,6 +54,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.keykat.presentation.careerViewModel
 import com.keykat.presentation.screen.common.toDp
+import com.keykat.presentation.screen.common.toPx
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -164,8 +169,6 @@ fun CareerScreen(
             ) {
                 CustomBottomModalSheet(
                     modifier = Modifier
-                        .padding(top = 10.dp)
-                        .shadow(20.dp, spotColor = Color.Black)
                         .fillMaxWidth()
                         .background(
                             MaterialTheme.colorScheme.surfaceContainer,
@@ -185,17 +188,15 @@ fun CareerScreen(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CustomBottomModalSheet(
     modifier: Modifier,
     viewModel: CareerViewModel = careerViewModel(),
 ) {
-    val deviceWidth = Resources.getSystem().displayMetrics.widthPixels
     val deviceHeight = Resources.getSystem().displayMetrics.heightPixels
 
     val maxModalHeight = (deviceHeight / 1.8).toFloat()
-    val minModalHeight = 90f
+    val minModalHeight = (20.dp + 40.dp).toPx.value
     val expanded = viewModel.isExpandedModalBottomSheet.collectAsState().value
     val modalHeight by animateDpAsState(
         targetValue = (if (expanded) maxModalHeight else minModalHeight).toDp.dp,
@@ -216,20 +217,42 @@ fun CustomBottomModalSheet(
         modifier = modifier
             .padding(top = 20.dp, start = 20.dp, end = 20.dp)
             .height(modalHeight)
-            .clickable {
-                viewModel.closeModalBottomSheet()
-            }
             .animateContentSize()
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Box(
-                modifier = Modifier
-                    .width((deviceWidth / 7).toDp.dp)
-                    .height(6.dp)
-                    .background(MaterialTheme.colorScheme.surfaceVariant)
-            )
+                contentAlignment = Alignment.Center,
+                modifier = modifier
+                    .fillMaxWidth()
+                    .height(40.dp)
+                    .clickable {
+                        if (expanded) {
+                            viewModel.closeModalBottomSheet()
+                        } else {
+                            viewModel.openModalBottomSheet()
+                        }
+                    }
+            ) {
+                if (expanded) {
+                    Icon(
+                        Icons.Rounded.KeyboardDoubleArrowDown,
+                        contentDescription = "내리기",
+                        modifier = Modifier
+                            .width(40.dp)
+                            .height(40.dp)
+                    )
+                } else {
+                    Icon(
+                        Icons.Rounded.KeyboardDoubleArrowUp,
+                        contentDescription = "올리기",
+                        modifier = Modifier
+                            .width(40.dp)
+                            .height(40.dp)
+                    )
+                }
+            }
 
             Spacer(modifier = Modifier.height(20.dp))
 
