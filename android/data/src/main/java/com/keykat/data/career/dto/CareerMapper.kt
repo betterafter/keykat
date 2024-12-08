@@ -5,6 +5,8 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.keykat.domain.career.entity.CareerDetailEntity
 import com.keykat.domain.career.entity.CareerEntity
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 object CareerMapper {
     @RequiresApi(Build.VERSION_CODES.O)
@@ -19,6 +21,10 @@ object CareerMapper {
             Color.BLUE
         }
 
+        val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+        val detail = this.careerDetail.sortedByDescending { dto ->
+            LocalDate.parse("${dto.endAt}.01", formatter)
+        }
 
         return CareerEntity(
             name = this.name,
@@ -27,7 +33,7 @@ object CareerMapper {
             duration = "${this.startAt} ~ ${this.endAt}",
             teamName = this.teamName,
             mainColor = color,
-            careerDetail = this.careerDetail.mapNotNull {
+            careerDetail = detail.mapNotNull {
                 it.toDomain()
             }
         )
