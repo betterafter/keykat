@@ -2,8 +2,6 @@ package com.keykat.presentation.screen.career
 
 import android.content.res.Resources
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -24,6 +22,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -41,11 +40,15 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.keykat.presentation.careerViewModel
 import com.keykat.presentation.screen.common.toDp
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -58,9 +61,13 @@ fun CareerScreen(
     val deviceHeight = Resources.getSystem().displayMetrics.heightPixels
 
     val careerUiState = careerViewModel.career.collectAsState()
-    val mainColor = MaterialTheme.colorScheme.primary
 
     val interactionSource = remember { MutableInteractionSource() }
+
+    val mainColorList = listOf(
+        MaterialTheme.colorScheme.primary,
+        Color.Green
+    )
 
     LaunchedEffect(Unit) {
         careerViewModel.getCareer()
@@ -81,6 +88,8 @@ fun CareerScreen(
 
             HorizontalPager(state = pagerState) { page ->
                 val career = careerEntityList[page]
+                val mainColor = Color(career.mainColor)
+
                 Box(modifier = Modifier.fillMaxSize()) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
@@ -93,7 +102,7 @@ fun CareerScreen(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(10.dp)
-                                    .background(mainColor)
+                                    .background(color = mainColor)
                             )
 
                             Box(
@@ -108,13 +117,42 @@ fun CareerScreen(
 
                         Box {
                             CareerCompanySectionWidget(
-                                careerEntity = career
+                                careerEntity = career,
+                                mainColor = mainColor
                             )
                         }
 
-                        Box(modifier = Modifier.width(deviceWidth.toDp.dp / 2)) {
-                            CareerSummarySectionWidget()
+                        Spacer(modifier = Modifier.height(60.dp))
+
+                        Row {
+                            Box(
+                                modifier = Modifier
+                                    .width(10.dp)
+                                    .fillMaxHeight()
+                                    .background(
+                                        color = mainColor,
+                                        shape = RoundedCornerShape(
+                                            topEnd = 10.dp,
+                                            topStart = 10.dp
+                                        )
+                                    )
+                            )
+
+                            Spacer(modifier = Modifier.width(10.dp))
+
+                            Column {
+                                career.careerDetail.forEach { detail ->
+                                    Box {
+                                        CareerSummarySectionWidget(
+                                            careerDetailEntity = detail,
+                                            mainColor = mainColor
+                                        )
+                                    }
+                                }
+                            }
                         }
+
+
                     }
                 }
             }
@@ -125,6 +163,8 @@ fun CareerScreen(
             ) {
                 CustomBottomModalSheet(
                     modifier = Modifier
+                        .padding(top = 10.dp)
+                        .shadow(20.dp, spotColor = Color.Black)
                         .fillMaxWidth()
                         .background(
                             MaterialTheme.colorScheme.surfaceContainer,
@@ -144,27 +184,32 @@ fun CareerScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun CustomBottomModalSheet(modifier: Modifier) {
+fun CustomBottomModalSheet(
+    modifier: Modifier,
+    viewModel: CareerViewModel = careerViewModel()
+) {
     val deviceWidth = Resources.getSystem().displayMetrics.widthPixels
     val deviceHeight = Resources.getSystem().displayMetrics.heightPixels
 
-    val maxModalHeight = (deviceHeight / 2).toFloat()
-    val minModalHeight = 100f
-    var expanded by remember { mutableStateOf(true) }
+    val maxModalHeight = (deviceHeight / 1.8).toFloat()
+    val minModalHeight = 90f
+    val expanded = viewModel.isExpandedModalBottomSheet.collectAsState().value
     val modalHeight by animateDpAsState(
         targetValue = (if (expanded) maxModalHeight else minModalHeight).toDp.dp,
         label = ""
     )
 
+    val careerDetail = viewModel.currentClickedCareerDetail.collectAsState()
+
     Box(
         contentAlignment = Alignment.TopCenter,
         modifier = modifier
-            .padding(top = 20.dp)
+            .padding(top = 20.dp, start = 20.dp, end = 20.dp)
             .height(modalHeight)
             .clickable {
-                expanded = !expanded
+                viewModel.closeModalBottomSheet()
             }
             .animateContentSize()
     ) {
@@ -181,13 +226,8 @@ fun CustomBottomModalSheet(modifier: Modifier) {
             Spacer(modifier = Modifier.height(20.dp))
 
             Text(
-                text = "안녕\n안녕\n안녕\n안녕\n" +
-                        "안녕\n" +
-                        "안녕\n" +
-                        "안녕\n" +
-                        "안녕\n" +
-                        "안녕\n" +
-                        "안녕"
+                text = careerDetail.value?.description.toString(),
+                style = MaterialTheme.typography.bodyMedium
             )
         }
     }
