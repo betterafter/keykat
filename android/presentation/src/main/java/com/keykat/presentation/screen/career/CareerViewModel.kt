@@ -18,6 +18,10 @@ class CareerViewModel @Inject constructor(
     private val _career = MutableStateFlow<CareerUiState>(CareerUiState.Init)
     val career: MutableStateFlow<CareerUiState> = _career
 
+    private val _currentClickedCareer = MutableStateFlow<CareerEntity?>(null)
+    val currentClickedCareer: MutableStateFlow<CareerEntity?> = _currentClickedCareer
+
+
     private val _currentClickedCareerDetail = MutableStateFlow<CareerDetailEntity?>(null)
     val currentClickedCareerDetail: MutableStateFlow<CareerDetailEntity?> = _currentClickedCareerDetail
 
@@ -37,7 +41,11 @@ class CareerViewModel @Inject constructor(
         }
     }
 
-    fun clickDetail(careerDetailEntity: CareerDetailEntity) {
+    fun clickDetail(
+        careerEntity: CareerEntity,
+        careerDetailEntity: CareerDetailEntity
+    ) {
+        _currentClickedCareer.value = careerEntity
         _currentClickedCareerDetail.value = careerDetailEntity
         _isExpandedModalBottomSheet.value = true
     }

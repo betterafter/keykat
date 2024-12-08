@@ -37,6 +37,7 @@ import com.keykat.presentation.screen.common.toDp
 
 @Composable
 fun CareerSummarySectionWidget(
+    careerEntity: CareerEntity,
     careerDetailEntity: CareerDetailEntity,
     mainColor: Color,
     viewModel: CareerViewModel = careerViewModel()
@@ -74,7 +75,10 @@ fun CareerSummarySectionWidget(
                         color = Color.White
                     )
                 )
-                .clickable { viewModel.clickDetail(careerDetailEntity) }
+                .clickable { viewModel.clickDetail(
+                    careerEntity,
+                    careerDetailEntity
+                ) }
             ,
         ) {
             Column(

@@ -144,6 +144,7 @@ fun CareerScreen(
                                 career.careerDetail.forEach { detail ->
                                     Box {
                                         CareerSummarySectionWidget(
+                                            careerEntity = career,
                                             careerDetailEntity = detail,
                                             mainColor = mainColor
                                         )
@@ -188,7 +189,7 @@ fun CareerScreen(
 @Composable
 fun CustomBottomModalSheet(
     modifier: Modifier,
-    viewModel: CareerViewModel = careerViewModel()
+    viewModel: CareerViewModel = careerViewModel(),
 ) {
     val deviceWidth = Resources.getSystem().displayMetrics.widthPixels
     val deviceHeight = Resources.getSystem().displayMetrics.heightPixels
@@ -201,7 +202,14 @@ fun CustomBottomModalSheet(
         label = ""
     )
 
+    val career = viewModel.currentClickedCareer.collectAsState()
     val careerDetail = viewModel.currentClickedCareerDetail.collectAsState()
+    val mainColor = if (career.value != null) {
+        Color(career.value!!.mainColor)
+    } else {
+        MaterialTheme.colorScheme.primary
+    }
+
 
     Box(
         contentAlignment = Alignment.TopCenter,
@@ -225,9 +233,9 @@ fun CustomBottomModalSheet(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            Text(
-                text = careerDetail.value?.description.toString(),
-                style = MaterialTheme.typography.bodyMedium
+            CareerDetailSectionWidget(
+                mainColor = mainColor,
+                careerDetailEntity = careerDetail.value
             )
         }
     }
