@@ -2,6 +2,7 @@ package com.keykat.presentation.screen.career
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.keykat.domain.career.entity.CareerDetailEntity
 import com.keykat.domain.career.entity.CareerEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,6 +18,12 @@ class CareerViewModel @Inject constructor(
     private val _career = MutableStateFlow<CareerUiState>(CareerUiState.Init)
     val career: MutableStateFlow<CareerUiState> = _career
 
+    private val _currentClickedCareerDetail = MutableStateFlow<CareerDetailEntity?>(null)
+    val currentClickedCareerDetail: MutableStateFlow<CareerDetailEntity?> = _currentClickedCareerDetail
+
+    private val _isExpandedModalBottomSheet = MutableStateFlow(false)
+    val isExpandedModalBottomSheet: MutableStateFlow<Boolean> = _isExpandedModalBottomSheet
+
     suspend fun getCareer() {
         _career.value = CareerUiState.Loading
         viewModelScope.launch {
@@ -28,5 +35,14 @@ class CareerViewModel @Inject constructor(
                     println("[keykat] career: ${_career.value}")
                 }
         }
+    }
+
+    fun clickDetail(careerDetailEntity: CareerDetailEntity) {
+        _currentClickedCareerDetail.value = careerDetailEntity
+        _isExpandedModalBottomSheet.value = true
+    }
+
+    fun closeModalBottomSheet() {
+        _isExpandedModalBottomSheet.value = false
     }
 }
