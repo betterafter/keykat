@@ -3,7 +3,7 @@ package com.keykat.presentation.screen.common
 import android.content.res.Resources
 import androidx.compose.ui.unit.Dp
 
-const val navigationHeight = 72F
+const val navigationHeight = 82F
 
 val Float.toPx get() = this * Resources.getSystem().displayMetrics.density
 val Float.toDp get() = this / Resources.getSystem().displayMetrics.density

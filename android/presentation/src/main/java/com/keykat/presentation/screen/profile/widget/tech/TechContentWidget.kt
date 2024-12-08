@@ -25,6 +25,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.keykat.domain.profile.entity.TechEntity
 
@@ -35,6 +37,15 @@ fun TechContentWidget(
     pagerState: PagerState
 ) {
     val arcColor = MaterialTheme.colorScheme.background
+    val colorStops = arrayOf(
+        0.0f to  arcColor,
+        1f to arcColor.copy(
+            red = 0.05f,
+            green = 0.05f,
+            blue = 0.05f
+        )
+    )
+
     var tech by remember { mutableStateOf(techEntity[pagerState.currentPage]) }
     val scrollState = rememberScrollState()
 
@@ -67,7 +78,7 @@ fun TechContentWidget(
                 modifier = Modifier
                     .height(80.dp)
                     .fillMaxWidth()
-                    .background(color = arcColor)
+                    .background(Brush.verticalGradient(colorStops = colorStops))
             )
 
             Canvas(
@@ -76,7 +87,11 @@ fun TechContentWidget(
                     .height(160.dp)
             ) {
                 drawArc(
-                    color = arcColor,
+                    color = arcColor.copy(
+                        red = 0.05f,
+                        green = 0.05f,
+                        blue = 0.05f
+                    ),
                     startAngle = 0f,
                     sweepAngle = 180f,
                     useCenter = true,
@@ -84,20 +99,24 @@ fun TechContentWidget(
             }
 
 
-            Box(modifier = Modifier
-                .padding(start = 20.dp, end = 20.dp)
-                .fillMaxWidth()
+            Box(
+                modifier = Modifier
+                    .padding(start = 20.dp, end = 20.dp)
+                    .fillMaxWidth()
             ) {
                 FlowRow {
                     tech.stacks?.forEach {
-                        Box(modifier = Modifier
-                            .padding(2.dp)) {
-                            Box(modifier = Modifier
-                                .background(
-                                    color = MaterialTheme.colorScheme.inversePrimary,
-                                    shape = RoundedCornerShape(100)
-                                )
-                                .padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 4.dp)
+                        Box(
+                            modifier = Modifier
+                                .padding(2.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .background(
+                                        color = MaterialTheme.colorScheme.inversePrimary,
+                                        shape = RoundedCornerShape(100)
+                                    )
+                                    .padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 4.dp)
                             ) {
                                 Text(
                                     text = it,
