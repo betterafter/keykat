@@ -30,6 +30,7 @@ object PortfolioMapper {
             links = this.links?.map {
                 it.toDomain()
             },
+            background = this.background,
             thumbnail = this.thumbnail,
             parent = this.parent,
         )

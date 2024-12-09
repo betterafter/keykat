@@ -7,5 +7,6 @@ data class PortfolioCareerEntity(
     val url: String?,
     val thumbnail: String?,
     val parent: String?,
+    val background: String?,
     val links: List<PortfolioProjectLinkEntity>?
 )
