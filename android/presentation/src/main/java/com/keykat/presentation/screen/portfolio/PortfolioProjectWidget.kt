@@ -5,7 +5,7 @@ import com.keykat.domain.potfolio.entity.PortfolioProjectEntity
 
 @Composable
 fun PortfolioProjectWidget(
-    portfolioProjectEntity: PortfolioProjectEntity
+    portfolioProjectEntity: List<PortfolioProjectEntity>
 ) {
 
 }

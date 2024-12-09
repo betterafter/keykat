@@ -25,7 +25,11 @@ class PortfolioViewModel @Inject constructor(
                     portfolioUiState.value = PortfolioUiState.Error(e)
                 }
                 .collect {
-                    portfolioUiState.value = PortfolioUiState.Success(it)
+                    if (it == null) {
+                        portfolioUiState.value = PortfolioUiState.Error()
+                    } else {
+                        portfolioUiState.value = PortfolioUiState.Success(it)
+                    }
                 }
         }
     }

@@ -9,7 +9,7 @@ import androidx.navigation.NavController
 @Composable
 fun PortfolioScreen(
     navController: NavController,
-    portfolioViewModel: PortfolioViewModel,
+    portfolioViewModel: PortfolioViewModel = com.keykat.presentation.portfolioViewModel(),
 ) {
     val portFolioUiState = portfolioViewModel.portfolioUiState.collectAsState()
     LaunchedEffect(Unit) {
