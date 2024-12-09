@@ -8,5 +8,6 @@ data class PortfolioCareerEntity(
     val thumbnail: String?,
     val parent: String?,
     val background: String?,
+    var children: MutableList<PortfolioCareerEntity> = mutableListOf(),
     val links: List<PortfolioProjectLinkEntity>?
 )

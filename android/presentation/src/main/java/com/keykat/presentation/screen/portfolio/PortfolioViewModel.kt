@@ -28,7 +28,17 @@ class PortfolioViewModel @Inject constructor(
                     if (it == null) {
                         portfolioUiState.value = PortfolioUiState.Error()
                     } else {
-                        portfolioUiState.value = PortfolioUiState.Success(it)
+                        val portfolio = it.copy()
+
+                        it.portfolioCareerEntity?.forEach { curr ->
+                            portfolio.portfolioCareerEntity?.mapIndexed { index, po ->
+                                if (po.name == curr.parent) {
+                                    portfolio.portfolioCareerEntity!![index].children.add(curr)
+                                }
+                            }
+                        }
+
+                        portfolioUiState.value = PortfolioUiState.Success(portfolio)
                     }
                 }
         }
