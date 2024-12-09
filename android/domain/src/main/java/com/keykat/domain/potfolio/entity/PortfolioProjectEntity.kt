@@ -8,5 +8,5 @@ data class PortfolioProjectEntity(
     val introduce: String?,
     val url: String?,
     val work: String?,
-    val thumbnail: String,
+    val thumbnail: String?,
 )

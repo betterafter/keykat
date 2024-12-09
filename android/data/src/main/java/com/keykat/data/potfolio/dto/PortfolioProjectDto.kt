@@ -17,6 +17,6 @@ data class PortfolioProjectDto(
     val work: String?,
 
     @SerializedName("thumbnail")
-    val thumbnail: String,
+    val thumbnail: String?,
 
 )

@@ -16,8 +16,10 @@ class PortfolioRepositoryImpl @Inject constructor(
         return flow {
             try {
                 val portfolioDto = portfolioApi.getPortfolio().body()?.toDomain()
+                println("[keykat] portfolioDto: $portfolioDto")
                 emit(portfolioDto)
             } catch (e: Exception) {
+                println("[keykat] e: $e")
                 emit(null)
             }
         }
