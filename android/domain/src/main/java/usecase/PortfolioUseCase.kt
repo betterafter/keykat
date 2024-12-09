@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 class PortfolioUseCase(
     private val portfolioRepository: PortfolioRepository
 ) {
-    suspend fun getPortfolio(): Flow<PortfolioEntity> {
+    suspend fun getPortfolio(): Flow<PortfolioEntity?> {
         return portfolioRepository.getPortfolio()
     }
 }

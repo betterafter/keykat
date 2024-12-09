@@ -21,6 +21,9 @@ data class PortfolioCareerDto(
     @SerializedName("parent")
     val parent: String?,
 
+    @SerializedName("thumbnail")
+    val thumbnail: String,
+
     @SerializedName("links")
     val links: List<PortfolioProjectLinkDto>?
 )
