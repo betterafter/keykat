@@ -8,8 +8,12 @@ import com.keykat.domain.potfolio.entity.PortfolioProjectLinkEntity
 object PortfolioMapper {
     fun PortfolioDto.toDomain(): PortfolioEntity {
         return PortfolioEntity(
-            portfolioProjectEntity = this.portfolioProjectDto.toDomain(),
-            portfolioCareerEntity = this.portfolioCareerDto.toDomain()
+            portfolioProjectEntity = this.portfolioProjectDto.mapNotNull {
+                it.toDomain()
+            },
+            portfolioCareerEntity = this.portfolioCareerDto.mapNotNull {
+                it.toDomain()
+            }
         )
     }
 

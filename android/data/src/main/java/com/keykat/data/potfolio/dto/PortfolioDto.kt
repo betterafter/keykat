@@ -4,8 +4,8 @@ import com.google.gson.annotations.SerializedName
 
 data class PortfolioDto(
     @SerializedName("project")
-    val portfolioProjectDto: PortfolioProjectDto,
+    val portfolioProjectDto: List<PortfolioProjectDto>,
 
     @SerializedName("career")
-    val portfolioCareerDto: PortfolioCareerDto
+    val portfolioCareerDto: List<PortfolioCareerDto>
 )
