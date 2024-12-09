@@ -1,5 +1,6 @@
 package com.keykat.presentation.screen.portfolio
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -24,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.keykat.domain.potfolio.entity.PortfolioCareerEntity
+import com.keykat.presentation.navigation.Screen
 
 @Composable
 fun PortfolioCareerWidget(
@@ -52,18 +54,26 @@ fun PortfolioCareerWidget(
                 }
 
                 Card(
+                    border = BorderStroke(
+                        width = 3.dp,
+                        color = MaterialTheme.colorScheme.inversePrimary
+                    ),
                     modifier = Modifier
                         .padding(
                             start = 20.dp,
                             end = 20.dp,
                             bottom = if (it.children.isEmpty()) {
-                                30.dp
+                                80.dp
                             } else {
                                 0.dp
                             }
                         )
                         .clickable {
-
+                            navController.navigate(
+                                route = Screen.Web.createRoute(
+                                    it.url.toString()
+                                ),
+                            )
                         },
                     colors = CardDefaults.cardColors(
                         containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
