@@ -1,10 +1,12 @@
 package com.keykat.keykat.di.data
 
 import com.keykat.data.career.repository.CareerRepositoryImpl
+import com.keykat.data.potfolio.repository.PortfolioRepositoryImpl
 import com.keykat.data.profile.repository.EducationRepositoryImpl
 import com.keykat.data.profile.repository.ProfileRepositoryImpl
 import com.keykat.data.profile.repository.TechStackRepositoryImpl
 import com.keykat.domain.career.repository.CareerRepository
+import com.keykat.domain.potfolio.repository.PortfolioRepository
 import com.keykat.domain.profile.repository.EducationRepository
 import com.keykat.domain.profile.repository.ProfileRepository
 import com.keykat.domain.profile.repository.TechStackRepository
@@ -41,4 +43,10 @@ abstract class RepositoryModule {
     abstract fun bindsCareerRepository(
         careerRepositoryImpl: CareerRepositoryImpl
     ): CareerRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindsPortfolioRepository(
+        portfolioRepositoryImpl: PortfolioRepositoryImpl
+    ): PortfolioRepository
 }
