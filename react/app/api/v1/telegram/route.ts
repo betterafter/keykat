@@ -24,3 +24,9 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json({ message: "ok" });
 }
+
+
+export async function GET(req: NextRequest) {
+  console.log("telegram webhook get");
+  return NextResponse.json({ message: "ok" });
+}
