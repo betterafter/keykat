@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
+  console.log("telegram webhook");
   const body = await req.json();
 
   if (body?.chat_member) {
